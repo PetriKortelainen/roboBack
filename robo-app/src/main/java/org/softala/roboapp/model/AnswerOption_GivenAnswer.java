@@ -25,6 +25,12 @@ public class AnswerOption_GivenAnswer {
 		this.GivenAnswer = GivenAnswer;
 	}
 
+	public AnswerOption_GivenAnswer(){
+		this.MockId = 1;
+		this.AnswerOption = "";
+		this.GivenAnswer = 0;
+	}
+	
 	public int getMockId(){
 		return MockId;
 	}
@@ -37,4 +43,5 @@ public class AnswerOption_GivenAnswer {
 	public int getGivenAnswer() {
 		return GivenAnswer;
 	}
+	
 }

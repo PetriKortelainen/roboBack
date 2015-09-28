@@ -33,6 +33,16 @@ public class AnswerOption {
 		this.sets_user_type = sets_user_type;
 		
 	}
+	public AnswerOption(){
+		this.id = "";
+		this.id_Question = "";
+		this.text = "";
+		this.order_index = "";
+		this.id_next_question = "";
+		this.enabled = false;
+		this.sets_user_type = false;
+		
+	}
 	
 	public String getId() {
 		return id;

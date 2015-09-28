@@ -25,6 +25,14 @@ public class Question {
 	}
 	
 	
+	public Question() {
+		this.id= "";
+		this.text = "";
+		this.enabled = false;
+		this.answer_type = "";
+	}
+
+
 	public String getId() {
 		return id;
 	}
