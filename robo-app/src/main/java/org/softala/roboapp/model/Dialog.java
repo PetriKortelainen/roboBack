@@ -46,6 +46,14 @@ public class Dialog implements java.io.Serializable {
 		this.enabled = enabled;
 		this.created = created;
 	}
+	
+	public Dialog(boolean enabled, Date created, String name, Integer dialogId) {
+		this.enabled = enabled;
+		this.created = created;
+		this.name = name;
+		this.dialogId = dialogId;
+		
+	}
 
 	public Dialog(String name, boolean enabled, Date created, Set<Question> questions) {
 		this.name = name;

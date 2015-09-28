@@ -35,7 +35,7 @@ public class Question implements java.io.Serializable {
 	private Dialog dialog;
 	private String text;
 	private String answerType;
-	private Set<AnswerOption> answerOptions = new HashSet<AnswerOption>(0);
+	private Set<AnswerOption> answerOptions = new HashSet<AnswerOption>();
 
 	public Question() {
 	}
@@ -43,6 +43,13 @@ public class Question implements java.io.Serializable {
 	public Question(QuestionId id, Dialog dialog, String text, String answerType) {
 		this.id = id;
 		this.dialog = dialog;
+		this.text = text;
+		this.answerType = answerType;
+	}
+	
+	public Question(QuestionId id, String text, String answerType) {
+		super();
+		this.id = id;
 		this.text = text;
 		this.answerType = answerType;
 	}

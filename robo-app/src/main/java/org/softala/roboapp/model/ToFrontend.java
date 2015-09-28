@@ -16,16 +16,16 @@ public class ToFrontend {
 	private final long id;
 	
 	@Column(name="Question")
-	ArrayList<Question> QuestionList = new ArrayList();
+	ArrayList<Question> QuestionList = new ArrayList<Question>();
 	
 	@Column(name="Answer")
-	ArrayList<AnswerOption> AnswerList = new ArrayList();
+	ArrayList<AnswerOption> AnswerList = new ArrayList<AnswerOption>();
 	
 	public ToFrontend() {
 		super();
 		this.id = 1;
-		QuestionList = new ArrayList();
-		AnswerList = new ArrayList();
+		QuestionList = new ArrayList<Question>();
+		AnswerList = new ArrayList<AnswerOption>();
 	}	
 	
 	public AnswerOption getAnswer(int number){
