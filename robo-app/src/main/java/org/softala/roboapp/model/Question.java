@@ -9,7 +9,6 @@ import javax.persistence.Table;
 @Table(name = "Question")
 public class Question {
 	@Id
-	@Column(name = "id")
 	private final String id;
 	@Column(name = "text")
 	private final String text;

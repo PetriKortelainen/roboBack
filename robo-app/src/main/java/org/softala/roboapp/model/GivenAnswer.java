@@ -10,10 +10,9 @@ import javax.persistence.Table;
 @Table(name = "GivenAnswer")
 public class GivenAnswer {
 	@Id
-	@Column(name = "id")
 	private final int id;
-	@Column(name = "session_id")
-	private final int session_id;
+	@Column(name = "id_Session")
+	private final int id_Session;
 	@Column(name = "created")
 	private final Date created;
 	@Column(name = "question_text")
@@ -21,10 +20,10 @@ public class GivenAnswer {
 	@Column(name = "answer_text")
 	private final String answer_text;
 	
-	public GivenAnswer(int id, int session_id, Date created, String question_text, String answer_text){
+	public GivenAnswer(int id, int id_Session, Date created, String question_text, String answer_text){
 		
 		this.id = id;		
-		this.session_id = session_id;		
+		this.id_Session = id_Session;		
 		this.created = created;		
 		this.question_text = question_text;	
 		this.answer_text = answer_text;
@@ -34,8 +33,8 @@ public class GivenAnswer {
 		return id;
 	}
 	
-	public int getSession_id() {
-		return session_id;
+	public int getid_Session() {
+		return id_Session;
 	}
 	
 	public Date getCreated() {
