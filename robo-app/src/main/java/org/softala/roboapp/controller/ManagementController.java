@@ -21,6 +21,12 @@ public class ManagementController {
 		System.out.println("test");
 	}
 	
+	@RequestMapping(value = "/testjson", method = RequestMethod.GET)
+	public void testJson (/*@RequestBody String jsonString*/) {
+		//System.out.println(jsonString);
+		System.out.println("test");
+	}
+	
 	@RequestMapping("/json")
 	public Hello jsonTest(){
 		return new Hello(1,"sup");
