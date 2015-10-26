@@ -1,11 +1,18 @@
- insert into dialog (created, enabled, name) VALUES (NOW(), TRUE, "Testi puu");
- 
- insert into question Values(1,"Q1","option","Esimerkki teksti");
- insert into question Values(1,"Q2","option","Esimerkki teksti 2");
- 
- insert into answer_option Values ("A1", 1, "Q1", "Q2", 1, NULL, "Oletko esimerkikki?");
- insert into answer_option Values ("A2", 1, "Q1", "Q2", 1, NULL, "Oletko esimerkikki 2?");
+-- Insert test data 26.10.2015
 
- insert into session Values ("some_session", NOW(), "browser");
- 
- insert into given_answer Values ("A2", 1, "Q1", "some_session", NOW());
+INSERT INTO dialog(name, enabled, created) VALUES ('Testidialogi', 1, NOW());
+SET @dialogId = LAST_INSERT_ID();
+
+INSERT INTO question(dialog_id, text, answer_type) VALUES(@dialogID, 'Miten menee?', 'choice');
+
+SET @Q1 = LAST_INSERT_ID();
+
+INSERT INTO question(dialog_id, text, answer_type) VALUES(@dialogID, 'Onko hyvä fiilis?', 'choice');
+
+SET @Q2 = LAST_INSERT_ID();
+
+INSERT INTO question(dialog_id, text, answer_type) VALUES(@dialogID, 'Ostatko?', 'choice');
+
+SET @Q3 = LAST_INSERT_ID();
+
+INSERT INTO answer_option(question_id, text, order_index, next_question_id) VALUES (@Q1, 'Ihan hyvin', 1, @Q2),(@Q1, 'Huonosti', 2, @Q3);
