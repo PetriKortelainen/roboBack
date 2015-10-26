@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Type;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -73,7 +75,8 @@ public class Dialog implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "enabled", nullable = false)
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	@Column(name = "enabled", nullable = false, columnDefinition = "TINYINT")
 	public boolean isEnabled() {
 		return this.enabled;
 	}
