@@ -1,15 +1,18 @@
 package org.softala.roboapp.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 
-import org.softala.roboapp.model.AnswerOption;
-import org.softala.roboapp.model.Dialog;
-import org.softala.roboapp.model.Question;
-import org.softala.roboapp.model.ToFrontend;
+import org.softala.roboapp.model.Hello;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -18,16 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/FrontFake")
 public class FrontFakeController {
-	/*Imagination of controller, returns JSON to front software.
-	 Data doesn't come from server! */
+	/*A TEST controller for development purposes
+	 * all content below should either be transfered or
+	 * deleted in final version */
+	
 	
 	/**
 	 * 
 	 * Had to remake this method in order to get relations to work, please check if needs to be remake
 	 */
 	@RequestMapping("/getTree")
-	public ToFrontend getTree(){
-		ToFrontend toFrontEnd = new ToFrontend();
+	public void getTree(){
+//		ToFrontend toFrontEnd = new ToFrontend();
 //		Dialog dialog = new Dialog();
 //		dialog.setDialogId(1);
 //		dialog.setEnabled(true);
@@ -47,13 +52,18 @@ public class FrontFakeController {
 //		toFrontEnd.getQuestionList().add(question);
 //		toFrontEnd.getAnswerList().add(AnswerOption);
 		
-		return toFrontEnd;
+		return;//toFrontend
 	}
 	
-	@RequestMapping("/postAnswer")
-	public void postAnswer(){
+	@RequestMapping(value= "/postAnswer", method = RequestMethod.POST)
+	public ResponseEntity<String> postAnswer(@RequestBody Hello hello){
 		//receive a single answer from front end and post it to server log
-		return;
+		//incoming data must reflect the model in question
+		
+		//To print content of hello bean
+		String content = hello.getContent();
+		
+		return new ResponseEntity<String>(content, HttpStatus.OK);
 	}
 	
 	@RequestMapping("/getSingle")
@@ -66,6 +76,30 @@ public class FrontFakeController {
 	public void getAll(){
 		//returns summary of all sales dialogues to front end as JSON
 		return;
+	}
+	
+	@RequestMapping("/asd")
+	public void base(){
+		//temp test method remove this!!
+		System.out.println("frontfake row base method for datetime");
+		
+		//test data for funzies delete!!! before final combile
+		//7.10 jatketaan syssymäl
+
+		Date date = new Date();
+		String oldstring = "2011-01-18 00:00:00.0";
+		//GivenAnswerId answerid;
+		//GivenAnswer answer = new GivenAnswer();
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(oldstring);
+			String newstring = new SimpleDateFormat("yyyy-MM-dd").format(date);
+			//answer.setCreated(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("DATETIME: "+date.toString());
+		return; //bean?
 	}
 
 }
