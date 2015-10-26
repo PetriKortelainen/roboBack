@@ -1,18 +1,19 @@
 package org.softala.roboapp.model;
 // default package
-// Generated Sep 28, 2015 12:35:36 PM by Hibernate Tools 3.4.0.CR1
+// Generated Oct 26, 2015 8:47:24 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,63 +31,46 @@ public class AnswerOption implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2591599791139173144L;
-	
-	private AnswerOptionId id;
+	private static final long serialVersionUID = 7549264608017777744L;
+	private Integer answerOptionId;
 	private Question question;
+	private Closing closing;
 	private String text;
-	private Integer orderIndex;
-	private String nextQuestionId;
-	private Boolean setsUserType;
-	private Set<GivenAnswer> givenAnswers = new HashSet<GivenAnswer>();
+	private int orderIndex;
+	private Integer nextQuestionId;
+	private Set<GivenAnswer> givenAnswers = new HashSet<GivenAnswer>(0);
 
 	public AnswerOption() {
 	}
 
-	public AnswerOption(AnswerOptionId id, Question question, String text) {
-		this.id = id;
+	public AnswerOption(Question question, int orderIndex) {
 		this.question = question;
-		this.text = text;
-	}
-	
-
-	public AnswerOption(AnswerOptionId id, String text, String nextQuestionId, Boolean setsUserType) {
-		super();
-		this.id = id;
-		this.text = text;
-		this.nextQuestionId = nextQuestionId;
-		this.setsUserType = setsUserType;
+		this.orderIndex = orderIndex;
 	}
 
-	public AnswerOption(AnswerOptionId id, Question question, String text,
-			Integer orderIndex, String nextQuestionId, Boolean setsUserType,
-			Set<GivenAnswer> givenAnswers) {
-		this.id = id;
+	public AnswerOption(Question question, Closing closing, String text,
+			int orderIndex, Integer nextQuestionId, Set<GivenAnswer> givenAnswers) {
 		this.question = question;
+		this.closing = closing;
 		this.text = text;
 		this.orderIndex = orderIndex;
 		this.nextQuestionId = nextQuestionId;
-		this.setsUserType = setsUserType;
 		this.givenAnswers = givenAnswers;
 	}
 
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "answerOptionId", column = @Column(name = "answer_option_id", nullable = false, length = 50)),
-			@AttributeOverride(name = "questionId", column = @Column(name = "question_id", nullable = false, length = 10)),
-			@AttributeOverride(name = "dialogId", column = @Column(name = "dialog_id", nullable = false)) })
-	public AnswerOptionId getId() {
-		return this.id;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "answer_option_id", unique = true, nullable = false)
+	public Integer getAnswerOptionId() {
+		return this.answerOptionId;
 	}
 
-	public void setId(AnswerOptionId id) {
-		this.id = id;
+	public void setAnswerOptionId(Integer answerOptionId) {
+		this.answerOptionId = answerOptionId;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({
-			@JoinColumn(name = "question_id", referencedColumnName = "question_id", nullable = false, insertable = false, updatable = false),
-			@JoinColumn(name = "dialog_id", referencedColumnName = "dialog_id", nullable = false, insertable = false, updatable = false) })
+	@JoinColumn(name = "question_id", nullable = false)
 	@JsonBackReference
 	public Question getQuestion() {
 		return this.question;
@@ -96,7 +80,18 @@ public class AnswerOption implements java.io.Serializable {
 		this.question = question;
 	}
 
-	@Column(name = "text", nullable = false, length = 1000)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "closing_id")
+	@JsonBackReference
+	public Closing getClosing() {
+		return this.closing;
+	}
+
+	public void setClosing(Closing closing) {
+		this.closing = closing;
+	}
+
+	@Column(name = "text", length = 1000)
 	public String getText() {
 		return this.text;
 	}
@@ -105,31 +100,22 @@ public class AnswerOption implements java.io.Serializable {
 		this.text = text;
 	}
 
-	@Column(name = "order_index")
-	public Integer getOrderIndex() {
+	@Column(name = "order_index", nullable = false)
+	public int getOrderIndex() {
 		return this.orderIndex;
 	}
 
-	public void setOrderIndex(Integer orderIndex) {
+	public void setOrderIndex(int orderIndex) {
 		this.orderIndex = orderIndex;
 	}
 
-	@Column(name = "next_question_id", length = 10)
-	public String getNextQuestionId() {
+	@Column(name = "next_question_id")
+	public Integer getNextQuestionId() {
 		return this.nextQuestionId;
 	}
 
-	public void setNextQuestionId(String nextQuestionId) {
+	public void setNextQuestionId(Integer nextQuestionId) {
 		this.nextQuestionId = nextQuestionId;
-	}
-
-	@Column(name = "sets_user_type")
-	public Boolean getSetsUserType() {
-		return this.setsUserType;
-	}
-
-	public void setSetsUserType(Boolean setsUserType) {
-		this.setsUserType = setsUserType;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "answerOption")

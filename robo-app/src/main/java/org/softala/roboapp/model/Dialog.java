@@ -1,6 +1,6 @@
 package org.softala.roboapp.model;
 // default package
-// Generated Sep 28, 2015 12:35:36 PM by Hibernate Tools 3.4.0.CR1
+// Generated Oct 26, 2015 8:47:24 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,8 +31,7 @@ public class Dialog implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -416450501203374903L;
-	
+	private static final long serialVersionUID = 5749228737371876119L;
 	private Integer dialogId;
 	private String name;
 	private boolean enabled;
@@ -42,17 +41,9 @@ public class Dialog implements java.io.Serializable {
 	public Dialog() {
 	}
 
-	public Dialog(boolean enabled, Date created) {
-		this.enabled = enabled;
-		this.created = created;
-	}
-	
-	public Dialog(boolean enabled, Date created, String name, Integer dialogId) {
-		this.enabled = enabled;
-		this.created = created;
+	public Dialog(String name, boolean enabled) {
 		this.name = name;
-		this.dialogId = dialogId;
-		
+		this.enabled = enabled;
 	}
 
 	public Dialog(String name, boolean enabled, Date created, Set<Question> questions) {
@@ -73,7 +64,7 @@ public class Dialog implements java.io.Serializable {
 		this.dialogId = dialogId;
 	}
 
-	@Column(name = "name", length = 300)
+	@Column(name = "name", nullable = false, length = 300)
 	public String getName() {
 		return this.name;
 	}
@@ -82,7 +73,7 @@ public class Dialog implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "enabled", nullable = false, columnDefinition="TINYINT(1)")
+	@Column(name = "enabled", nullable = false)
 	public boolean isEnabled() {
 		return this.enabled;
 	}
@@ -92,7 +83,7 @@ public class Dialog implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created", nullable = false, length = 19)
+	@Column(name = "created", length = 19)
 	public Date getCreated() {
 		return this.created;
 	}

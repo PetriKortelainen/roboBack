@@ -1,6 +1,6 @@
 package org.softala.roboapp.model;
 // default package
-// Generated Sep 28, 2015 12:35:36 PM by Hibernate Tools 3.4.0.CR1
+// Generated Oct 26, 2015 8:47:24 AM by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -14,25 +14,19 @@ public class GivenAnswerId implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8601753697966755912L;
-	
+	private static final long serialVersionUID = -916280044465975402L;
 	private String sessionId;
-	private String answerOptionId;
-	private String questionId;
-	private int dialogId;
+	private int answerOptionId;
 
 	public GivenAnswerId() {
 	}
 
-	public GivenAnswerId(String sessionId, String answerOptionId,
-			String questionId, int dialogId) {
+	public GivenAnswerId(String sessionId, int answerOptionId) {
 		this.sessionId = sessionId;
 		this.answerOptionId = answerOptionId;
-		this.questionId = questionId;
-		this.dialogId = dialogId;
 	}
 
-	@Column(name = "session_id", nullable = false, length = 50)
+	@Column(name = "session_id", nullable = false, length = 128)
 	public String getSessionId() {
 		return this.sessionId;
 	}
@@ -41,31 +35,13 @@ public class GivenAnswerId implements java.io.Serializable {
 		this.sessionId = sessionId;
 	}
 
-	@Column(name = "answer_option_id", nullable = false, length = 50)
-	public String getAnswerOptionId() {
+	@Column(name = "answer_option_id", nullable = false)
+	public int getAnswerOptionId() {
 		return this.answerOptionId;
 	}
 
-	public void setAnswerOptionId(String answerOptionId) {
+	public void setAnswerOptionId(int answerOptionId) {
 		this.answerOptionId = answerOptionId;
-	}
-
-	@Column(name = "question_id", nullable = false, length = 10)
-	public String getQuestionId() {
-		return this.questionId;
-	}
-
-	public void setQuestionId(String questionId) {
-		this.questionId = questionId;
-	}
-
-	@Column(name = "dialog_id", nullable = false)
-	public int getDialogId() {
-		return this.dialogId;
-	}
-
-	public void setDialogId(int dialogId) {
-		this.dialogId = dialogId;
 	}
 
 	public boolean equals(Object other) {
@@ -80,16 +56,7 @@ public class GivenAnswerId implements java.io.Serializable {
 		return ((this.getSessionId() == castOther.getSessionId()) || (this
 				.getSessionId() != null && castOther.getSessionId() != null && this
 				.getSessionId().equals(castOther.getSessionId())))
-				&& ((this.getAnswerOptionId() == castOther.getAnswerOptionId()) || (this
-						.getAnswerOptionId() != null
-						&& castOther.getAnswerOptionId() != null && this
-						.getAnswerOptionId().equals(
-								castOther.getAnswerOptionId())))
-				&& ((this.getQuestionId() == castOther.getQuestionId()) || (this
-						.getQuestionId() != null
-						&& castOther.getQuestionId() != null && this
-						.getQuestionId().equals(castOther.getQuestionId())))
-				&& (this.getDialogId() == castOther.getDialogId());
+				&& (this.getAnswerOptionId() == castOther.getAnswerOptionId());
 	}
 
 	public int hashCode() {
@@ -97,15 +64,7 @@ public class GivenAnswerId implements java.io.Serializable {
 
 		result = 37 * result
 				+ (getSessionId() == null ? 0 : this.getSessionId().hashCode());
-		result = 37
-				* result
-				+ (getAnswerOptionId() == null ? 0 : this.getAnswerOptionId()
-						.hashCode());
-		result = 37
-				* result
-				+ (getQuestionId() == null ? 0 : this.getQuestionId()
-						.hashCode());
-		result = 37 * result + this.getDialogId();
+		result = 37 * result + this.getAnswerOptionId();
 		return result;
 	}
 

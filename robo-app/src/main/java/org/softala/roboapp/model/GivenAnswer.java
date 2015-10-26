@@ -1,6 +1,6 @@
 package org.softala.roboapp.model;
 // default package
-// Generated Sep 28, 2015 12:35:36 PM by Hibernate Tools 3.4.0.CR1
+// Generated Oct 26, 2015 8:47:24 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 
@@ -11,7 +11,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -29,50 +28,40 @@ public class GivenAnswer implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4262538939830037083L;
-	
+	private static final long serialVersionUID = -4822563740350712729L;
 	private GivenAnswerId id;
-	private AnswerOption answerOption;
 	private Session session;
+	private AnswerOption answerOption;
 	private Date created;
 
 	public GivenAnswer() {
 	}
 
-	public GivenAnswer(GivenAnswerId id, AnswerOption answerOption,
-			Session session, Date created) {
+	public GivenAnswer(GivenAnswerId id, Session session,
+			AnswerOption answerOption) {
 		this.id = id;
-		this.answerOption = answerOption;
 		this.session = session;
+		this.answerOption = answerOption;
+	}
+
+	public GivenAnswer(GivenAnswerId id, Session session,
+			AnswerOption answerOption, Date created) {
+		this.id = id;
+		this.session = session;
+		this.answerOption = answerOption;
 		this.created = created;
 	}
 
 	@EmbeddedId
 	@AttributeOverrides({
-			@AttributeOverride(name = "sessionId", column = @Column(name = "session_id", nullable = false, length = 50)),
-			@AttributeOverride(name = "answerOptionId", column = @Column(name = "answer_option_id", nullable = false, length = 50)),
-			@AttributeOverride(name = "questionId", column = @Column(name = "question_id", nullable = false, length = 10)),
-			@AttributeOverride(name = "dialogId", column = @Column(name = "dialog_id", nullable = false)) })
+			@AttributeOverride(name = "sessionId", column = @Column(name = "session_id", nullable = false, length = 128)),
+			@AttributeOverride(name = "answerOptionId", column = @Column(name = "answer_option_id", nullable = false)) })
 	public GivenAnswerId getId() {
 		return this.id;
 	}
 
 	public void setId(GivenAnswerId id) {
 		this.id = id;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumns({
-			@JoinColumn(name = "answer_option_id", referencedColumnName = "answer_option_id", nullable = false, insertable = false, updatable = false),
-			@JoinColumn(name = "question_id", referencedColumnName = "question_id", nullable = false, insertable = false, updatable = false),
-			@JoinColumn(name = "dialog_id", referencedColumnName = "dialog_id", nullable = false, insertable = false, updatable = false) })
-	@JsonBackReference
-	public AnswerOption getAnswerOption() {
-		return this.answerOption;
-	}
-
-	public void setAnswerOption(AnswerOption answerOption) {
-		this.answerOption = answerOption;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -86,8 +75,19 @@ public class GivenAnswer implements java.io.Serializable {
 		this.session = session;
 	}
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "answer_option_id", nullable = false, insertable = false, updatable = false)
+	@JsonBackReference
+	public AnswerOption getAnswerOption() {
+		return this.answerOption;
+	}
+
+	public void setAnswerOption(AnswerOption answerOption) {
+		this.answerOption = answerOption;
+	}
+
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "created", nullable = false, length = 19)
+	@Column(name = "created", length = 19)
 	public Date getCreated() {
 		return this.created;
 	}

@@ -1,16 +1,18 @@
 package org.softala.roboapp.model;
 // default package
-// Generated Sep 28, 2015 12:35:36 PM by Hibernate Tools 3.4.0.CR1
+// Generated Oct 26, 2015 8:47:24 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -29,55 +31,44 @@ public class Question implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1881288301979497581L;
-	
-	private QuestionId id;
+	private static final long serialVersionUID = -7490821130241285211L;
+	private Integer questionId;
 	private Dialog dialog;
 	private String text;
 	private String answerType;
-	private Set<AnswerOption> answerOptions = new HashSet<AnswerOption>();
+	private Set<AnswerOption> answerOptions = new HashSet<AnswerOption>(0);
 
 	public Question() {
 	}
 
-	public Question(QuestionId id, Dialog dialog, String text, String answerType) {
-		this.id = id;
+	public Question(Dialog dialog, String text, String answerType) {
 		this.dialog = dialog;
 		this.text = text;
 		this.answerType = answerType;
 	}
-	
-	public Question(QuestionId id, String text, String answerType) {
-		super();
-		this.id = id;
-		this.text = text;
-		this.answerType = answerType;
-	}
 
-	public Question(QuestionId id, Dialog dialog, String text,
-			String answerType, Set<AnswerOption> answerOptions) {
-		this.id = id;
+	public Question(Dialog dialog, String text, String answerType,
+			Set<AnswerOption> answerOptions) {
 		this.dialog = dialog;
 		this.text = text;
 		this.answerType = answerType;
 		this.answerOptions = answerOptions;
 	}
 
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "questionId", column = @Column(name = "question_id", nullable = false, length = 10)),
-			@AttributeOverride(name = "dialogId", column = @Column(name = "dialog_id", nullable = false)) })
-	public QuestionId getId() {
-		return this.id;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "question_id", unique = true, nullable = false)
+	public Integer getQuestionId() {
+		return this.questionId;
 	}
 
-	public void setId(QuestionId id) {
-		this.id = id;
+	public void setQuestionId(Integer questionId) {
+		this.questionId = questionId;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "dialog_id", nullable = false, insertable = false, updatable = false)
-	@JsonBackReference
+	@JoinColumn(name = "dialog_id", nullable = false)
+	@JsonManagedReference
 	public Dialog getDialog() {
 		return this.dialog;
 	}
@@ -95,7 +86,7 @@ public class Question implements java.io.Serializable {
 		this.text = text;
 	}
 
-	@Column(name = "answer_type", nullable = false, length = 50)
+	@Column(name = "answer_type", nullable = false, length = 16)
 	public String getAnswerType() {
 		return this.answerType;
 	}
@@ -105,7 +96,7 @@ public class Question implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
-	@JsonManagedReference
+	@JsonBackReference
 	public Set<AnswerOption> getAnswerOptions() {
 		return this.answerOptions;
 	}
