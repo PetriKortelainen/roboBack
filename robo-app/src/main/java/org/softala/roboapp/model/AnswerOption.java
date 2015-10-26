@@ -71,7 +71,7 @@ public class AnswerOption implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "question_id", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	public Question getQuestion() {
 		return this.question;
 	}
@@ -82,7 +82,7 @@ public class AnswerOption implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "closing_id")
-	@JsonBackReference
+	@JsonManagedReference
 	public Closing getClosing() {
 		return this.closing;
 	}
@@ -119,7 +119,7 @@ public class AnswerOption implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "answerOption")
-	@JsonManagedReference
+	@JsonBackReference
 	public Set<GivenAnswer> getGivenAnswers() {
 		return this.givenAnswers;
 	}

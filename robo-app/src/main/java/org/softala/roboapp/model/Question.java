@@ -68,7 +68,7 @@ public class Question implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "dialog_id", nullable = false)
-	@JsonManagedReference
+	@JsonBackReference
 	public Dialog getDialog() {
 		return this.dialog;
 	}
@@ -96,7 +96,7 @@ public class Question implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "question")
-	@JsonBackReference
+	@JsonManagedReference
 	public Set<AnswerOption> getAnswerOptions() {
 		return this.answerOptions;
 	}

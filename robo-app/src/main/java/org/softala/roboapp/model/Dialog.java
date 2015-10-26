@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Type;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -96,7 +97,7 @@ public class Dialog implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dialog")
-	@JsonManagedReference
+	@JsonBackReference
 	public Set<Question> getQuestions() {
 		return this.questions;
 	}

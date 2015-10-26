@@ -56,7 +56,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * THE SOFTWARE.
  *
  */
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @SpringApplicationConfiguration(classes = App.class)
