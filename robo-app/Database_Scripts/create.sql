@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS GivenAnswer;
 DROP TABLE IF EXISTS Session;
 SET foreign_key_checks = 1;
 
-CREATE TABLE Dialog(
+CREATE TABLE dialog(
   dialog_id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(300) NOT NULL,
   enabled BOOLEAN NOT NULL DEFAULT '0',
@@ -17,7 +17,7 @@ CREATE TABLE Dialog(
   PRIMARY KEY (dialog_id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE Question(
+CREATE TABLE question(
   question_id INT NOT NULL AUTO_INCREMENT,
   dialog_id INT NOT NULL,
   text VARCHAR(1000) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE Question(
   PRIMARY KEY (question_id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE AnswerOption(
+CREATE TABLE answer_option(
   answer_option_id INT NOT NULL AUTO_INCREMENT,
   question_id INT NOT NULL,
   text VARCHAR(1000),
@@ -35,7 +35,7 @@ CREATE TABLE AnswerOption(
   PRIMARY KEY (answer_option_id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE Closing(
+CREATE TABLE closing(
   closing_id INT NOT NULL AUTO_INCREMENT,
   text VARCHAR(2000) NOT NULL,
   product_url VARCHAR(2083),
@@ -43,43 +43,43 @@ CREATE TABLE Closing(
   PRIMARY KEY (closing_id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE GivenAnswer(
+CREATE TABLE given_answer(
   session_id VARCHAR(128) NOT NULL,
   answer_option_id INT NOT NULL,
   created DATETIME,
   PRIMARY KEY (session_id, answer_option_id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE Session(
+CREATE TABLE session(
   session_id VARCHAR(128) NOT NULL,
   created DATETIME,
   PRIMARY KEY (session_id)
 ) ENGINE=InnoDB;
 
-ALTER TABLE Question
+ALTER TABLE question
 ADD CONSTRAINT fk_question_dialog_id
-FOREIGN KEY (dialog_id) REFERENCES Dialog (dialog_id)
+FOREIGN KEY (dialog_id) REFERENCES dialog (dialog_id)
 ON UPDATE CASCADE
 ON DELETE NO ACTION;
 
-ALTER TABLE AnswerOption
+ALTER TABLE answer_option
 ADD CONSTRAINT fk_answer_option_question_id
-FOREIGN KEY (question_id) REFERENCES Question (question_id)
+FOREIGN KEY (question_id) REFERENCES question (question_id)
 ON UPDATE CASCADE
 ON DELETE NO ACTION,
 
 ADD CONSTRAINT fk_answer_option_closing_id
-FOREIGN KEY (closing_id) REFERENCES Closing (closing_id)
+FOREIGN KEY (closing_id) REFERENCES closing (closing_id)
 ON UPDATE CASCADE
 ON DELETE NO ACTION;
 
-ALTER TABLE GivenAnswer
+ALTER TABLE given_answer
 ADD CONSTRAINT fk_given_answer_session_id
-FOREIGN KEY (session_id) REFERENCES Session (session_id)
+FOREIGN KEY (session_id) REFERENCES session (session_id)
 ON UPDATE CASCADE
 ON DELETE NO ACTION,
 
 ADD CONSTRAINT fk_given_answer_answer_option_id
-FOREIGN KEY (answer_option_id) REFERENCES AnswerOption (answer_option_id)
+FOREIGN KEY (answer_option_id) REFERENCES answer_option (answer_option_id)
 ON UPDATE CASCADE
 ON DELETE NO ACTION;
