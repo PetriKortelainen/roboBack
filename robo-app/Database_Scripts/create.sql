@@ -1,4 +1,4 @@
--- Luontiskripti 14.10.2015
+-- Luontiskripti 26.10.2015
 
 SET foreign_key_checks = 0;
 DROP TABLE IF EXISTS Dialog;
