@@ -10,20 +10,35 @@ import javax.persistence.Table;
 public class Hello {
 	//json model yritelma{"id": 1, "content": "Hello, World!"}
 	@Id
-	private final long id;
+	private long id;
 	
 	@Column(name="content")
-	private final String content;
+	private String content;
+	
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Hello(){
+		this.id = 0;
+		this.content = "";
+	}
 	
 	public Hello(long id, String content){
 		this.id = id;
 		this.content = content;
 	}
 	
-	public long getId(){
+	public long getId() {
 		return id;
 	}
-	public String getContent(){
+
+	public String getContent() {
 		return content;
 	}
+	
 }
