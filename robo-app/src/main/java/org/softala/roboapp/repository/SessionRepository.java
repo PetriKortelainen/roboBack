@@ -1,8 +1,7 @@
 package org.softala.roboapp.repository;
 
-import org.softala.roboapp.model.Dialog;
+import org.softala.roboapp.model.Session;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  * 
@@ -32,8 +31,6 @@ import org.springframework.stereotype.Repository;
  * THE SOFTWARE.
  * 
  */
-
-@Repository
-public interface DialogRepository extends CrudRepository<Dialog, Integer> {
+public interface SessionRepository extends CrudRepository<Session, String> {
 
 }

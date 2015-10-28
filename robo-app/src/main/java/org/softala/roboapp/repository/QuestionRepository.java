@@ -1,6 +1,8 @@
 package org.softala.roboapp.repository;
 
-import org.softala.roboapp.model.Dialog;
+
+import org.softala.roboapp.model.Question;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -32,8 +34,12 @@ import org.springframework.stereotype.Repository;
  * THE SOFTWARE.
  * 
  */
-
 @Repository
-public interface DialogRepository extends CrudRepository<Dialog, Integer> {
+public interface QuestionRepository extends CrudRepository<Question, Long> {
 
+	@Query("select q from Question q where q.id = ?")
+	public Question findByQuestionId(String id);
+	
+
+	
 }

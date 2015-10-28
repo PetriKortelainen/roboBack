@@ -1,8 +1,11 @@
-package org.softala.roboapp.repository;
+package org.softala.roboapp.controller;
 
 import org.softala.roboapp.model.Dialog;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.softala.roboapp.repository.DialogRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 
@@ -33,7 +36,21 @@ import org.springframework.stereotype.Repository;
  * 
  */
 
-@Repository
-public interface DialogRepository extends CrudRepository<Dialog, Integer> {
+@RestController
+@RequestMapping("/dialog")
+public class DialogController {
+	
+	@Autowired
+	private DialogRepository dialogrepository;
+	
+	@RequestMapping("/repository/all")
+	public Iterable<Dialog> getAllDialogs(){
+		return dialogrepository.findAll();
+	}
+	
+	@RequestMapping("/repository/{id}")
+	public Dialog getDialogWithId(@PathVariable("id") Integer id){
+		return dialogrepository.findOne(id);
+	}
 
 }
