@@ -38,7 +38,7 @@ public class AnswerOption implements java.io.Serializable {
 	private String text;
 	private int orderIndex;
 	private Integer nextQuestionId;
-	private Set<GivenAnswer> givenAnswers = new HashSet<GivenAnswer>(0);
+	private Set<GivenAnswer> givenAnswers = new HashSet<GivenAnswer>();
 
 	public AnswerOption() {
 	}
@@ -71,7 +71,7 @@ public class AnswerOption implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "question_id", nullable = false)
-	@JsonManagedReference
+	@JsonBackReference
 	public Question getQuestion() {
 		return this.question;
 	}
@@ -82,7 +82,7 @@ public class AnswerOption implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "closing_id")
-	@JsonManagedReference
+	@JsonBackReference
 	public Closing getClosing() {
 		return this.closing;
 	}
@@ -119,7 +119,7 @@ public class AnswerOption implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "answerOption")
-	@JsonBackReference
+	@JsonManagedReference
 	public Set<GivenAnswer> getGivenAnswers() {
 		return this.givenAnswers;
 	}

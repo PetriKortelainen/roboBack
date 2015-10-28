@@ -36,7 +36,7 @@ public class Question implements java.io.Serializable {
 	private Dialog dialog;
 	private String text;
 	private String answerType;
-	private Set<AnswerOption> answerOptions = new HashSet<AnswerOption>(0);
+	private Set<AnswerOption> answerOptions = new HashSet<AnswerOption>();
 
 	public Question() {
 	}

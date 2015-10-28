@@ -39,7 +39,7 @@ public class Dialog implements java.io.Serializable {
 	private String name;
 	private boolean enabled;
 	private Date created;
-	private Set<Question> questions = new HashSet<Question>(0);
+	private Set<Question> questions = new HashSet<Question>();
 
 	public Dialog() {
 	}
@@ -97,7 +97,7 @@ public class Dialog implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dialog")
-	@JsonBackReference
+	@JsonManagedReference
 	public Set<Question> getQuestions() {
 		return this.questions;
 	}

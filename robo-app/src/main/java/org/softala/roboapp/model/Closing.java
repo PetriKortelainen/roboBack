@@ -34,7 +34,7 @@ public class Closing implements java.io.Serializable {
 	private String text;
 	private String productUrl;
 	private String toEmail;
-	private Set<AnswerOption> answerOptions = new HashSet<AnswerOption>(0);
+	private Set<AnswerOption> answerOptions = new HashSet<AnswerOption>();
 
 	public Closing() {
 	}

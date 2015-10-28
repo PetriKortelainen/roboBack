@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -31,7 +30,7 @@ public class Session implements java.io.Serializable {
 	private static final long serialVersionUID = -1442354598161023444L;
 	private String sessionId;
 	private Date created;
-	private Set<GivenAnswer> givenAnswers = new HashSet<GivenAnswer>(0);
+	private Set<GivenAnswer> givenAnswers = new HashSet<GivenAnswer>();
 
 	public Session() {
 	}
