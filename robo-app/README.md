@@ -2,7 +2,7 @@
 
 # Content
 
-	Add content here
+	Developed by Softala 2 at autumn 2015.
 	
 # Backend
 
