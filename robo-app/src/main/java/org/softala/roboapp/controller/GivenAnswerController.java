@@ -31,10 +31,10 @@ public class GivenAnswerController {
 //		return givenAnswerRepository.countAllSessionID();
 //	}
 	
-	@RequestMapping("/repository/pekko")
+	@RequestMapping("/repository/getAnswerPerQuestion")
 	@ResponseBody
-	public ArrayList<AnswerLevelPerAnswer> pekkosSQL(){
-		return givenAnswerRepository.pekko();
+	public ArrayList<AnswerLevelPerAnswer> getAnswerPerQuestion(){
+		return givenAnswerRepository.getAnswerPerQuestion();
 	}
 	
 

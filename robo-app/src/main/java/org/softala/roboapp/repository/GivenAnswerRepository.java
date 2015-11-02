@@ -2,6 +2,10 @@ package org.softala.roboapp.repository;
 
 import java.util.ArrayList;
 
+import javax.persistence.EntityResult;
+import javax.persistence.FieldResult;
+import javax.persistence.SqlResultSetMapping;
+
 import org.softala.roboapp.model.GivenAnswer;
 import org.softala.roboapp.model.helpModels.AnswerLevelPerAnswer;
 import org.springframework.data.jpa.repository.Query;
@@ -40,8 +44,7 @@ public interface GivenAnswerRepository extends CrudRepository<GivenAnswer, Long>
 //	@Query("select count(q.session_id) from GivenAnswer q")
 //	public int countAllSessionID();
 	
-	//EI TOIMI
-	@Query(value = "select ut.user_type, ag.answers_given, (   select count(id) from session  where answers_given >= ag.answers_given and user_type = ut.user_type ) as count from session as ag join session as ut group by ut.user_type, ag.answers_given;", nativeQuery = true)
-	public ArrayList<AnswerLevelPerAnswer> pekko();
+	@Query(value = "select q.text as question_text, ao.text as answer_option_text, count(ga.created) as answers from answer_option ao join given_answer ga on ga.answer_option_id = ao.answer_option_id join question q on ao.question_id = q.question_id group by ao.answer_option_id;", nativeQuery = true )
+	public ArrayList<AnswerLevelPerAnswer> getAnswerPerQuestion();
 
 }
