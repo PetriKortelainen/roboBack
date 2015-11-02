@@ -67,7 +67,7 @@ public class GivenAnswer implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "session_id", nullable = false, insertable = false, updatable = false)
-	@JsonManagedReference
+	@JsonBackReference
 	public Session getSession() {
 		return this.session;
 	}
@@ -78,7 +78,7 @@ public class GivenAnswer implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "answer_option_id", nullable = false, insertable = false, updatable = false)
-	@JsonManagedReference
+	@JsonBackReference
 	public AnswerOption getAnswerOption() {
 		return this.answerOption;
 	}
