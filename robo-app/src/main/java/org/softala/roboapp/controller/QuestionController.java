@@ -50,8 +50,8 @@ public class QuestionController {
 	}
 	
 	@RequestMapping("/repository/{id}")
-	public Question getQuestionById(@PathVariable("id") String id){
-		Question question = questionrepository.findByQuestionId(id);
+	public Question getQuestionById(@PathVariable("id") Integer id){
+		Question question = questionrepository.findOne(id);
 		return question;
 	}
 

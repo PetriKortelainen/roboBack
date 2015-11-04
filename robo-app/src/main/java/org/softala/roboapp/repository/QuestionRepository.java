@@ -35,7 +35,7 @@ import org.springframework.stereotype.Repository;
  * 
  */
 @Repository
-public interface QuestionRepository extends CrudRepository<Question, Long> {
+public interface QuestionRepository extends CrudRepository<Question, Integer> {
 
 	@Query("select q from Question q where q.id = ?")
 	public Question findByQuestionId(String id);
