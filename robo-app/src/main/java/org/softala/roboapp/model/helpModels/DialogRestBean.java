@@ -2,23 +2,33 @@ package org.softala.roboapp.model.helpModels;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 /**
- * @author team3 (Aleksi Tilli)
+ * @author team3
  * Used for matching backend's dialog tree with the one in the frontend.
  */
 public class DialogRestBean implements Serializable{
 	private String dialogName;
 	private Date dialogCreated;
-	private QuestionRestBean dialogFirstQuestion;
+	private String questionText;
+	public String getQuestionText() {
+		return questionText;
+	}
+
+	public void setQuestionText(String questionText) {
+		this.questionText = questionText;
+	}
+
+	private List<DialogNodeRestBean> nodes;
 	
 	public DialogRestBean(String dialogName, Date dialogCreated,
-			QuestionRestBean dialogFirstQuestion) {
+			List<DialogNodeRestBean> nodes) {
 		super();
 		this.dialogName = dialogName;
 		this.dialogCreated = dialogCreated;
-		this.dialogFirstQuestion = dialogFirstQuestion;
+		this.nodes = nodes;
 	}
 	
 	public String getDialogName() {
@@ -33,11 +43,18 @@ public class DialogRestBean implements Serializable{
 	public void setDialogCreated(Date dialogCreated) {
 		this.dialogCreated = dialogCreated;
 	}
-	public QuestionRestBean getDialogFirstQuestion() {
-		return dialogFirstQuestion;
+	public List<DialogNodeRestBean> getDialogNodes() {
+		return nodes;
 	}
-	public void setDialogFirstQuestion(QuestionRestBean dialogFirstQuestion) {
-		this.dialogFirstQuestion = dialogFirstQuestion;
+	public void setDialogNodes(List<DialogNodeRestBean> dialogFirstQuestion) {
+		this.nodes = dialogFirstQuestion;
+	}
+
+	@Override
+	public String toString() {
+		return "DialogRestBean [dialogName=" + dialogName + ", dialogCreated="
+				+ dialogCreated + ", questionText=" + questionText + ", nodes="
+				+ nodes + "]";
 	}
 	
 }

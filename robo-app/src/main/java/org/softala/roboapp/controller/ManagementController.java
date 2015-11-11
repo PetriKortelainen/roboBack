@@ -1,7 +1,14 @@
 package org.softala.roboapp.controller;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.softala.roboapp.model.Hello;
+import org.softala.roboapp.model.helpModels.DialogRestBean;
 import org.softala.roboapp.repository.DialogRepository;
+import org.softala.roboapp.util.GsonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +39,18 @@ public class ManagementController {
 	public void testJson (/*@RequestBody String jsonString*/) {
 		//System.out.println(jsonString);
 		System.out.println("test");
+//		
+//		String json = "{\"dialogName\": \"Dialogi 1\",\"questiontext\": "
+//				+ "\"Oletko kiinnostunut laitteesta?\",\"nodes\": []}";
+
 	}
 	
 	@RequestMapping("/json")
 	public Hello jsonTest(){
 		return new Hello(1,"sup");
 	}
+	
+
 	
 	
 
