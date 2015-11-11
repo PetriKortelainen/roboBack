@@ -7,13 +7,15 @@ import javax.persistence.FieldResult;
 import javax.persistence.SqlResultSetMapping;
 
 import org.softala.roboapp.model.GivenAnswer;
+import org.softala.roboapp.model.Session;
 import org.softala.roboapp.model.helpModels.AnswerLevelPerAnswer;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  * 
- * @author Tuomas Törmä
+ * @author Tuomas Törmä, Petri Kortelainen
  * @Since 14.10.2015
  * 
  *  * The MIT License (MIT)
@@ -46,5 +48,9 @@ public interface GivenAnswerRepository extends CrudRepository<GivenAnswer, Long>
 	
 	@Query(value = "select q.text as question_text, ao.text as answer_option_text, count(ga.created) as answers from answer_option ao join given_answer ga on ga.answer_option_id = ao.answer_option_id join question q on ao.question_id = q.question_id group by ao.answer_option_id;", nativeQuery = true )
 	public ArrayList<AnswerLevelPerAnswer> getAnswerPerQuestion();
+	
+	@Modifying
+	@Query(value= "INSERT INTO given_answer (created, answer_option_id,session_id) values (?, ?, ?", nativeQuery = true)
+	public void newClick(String date, String aoid, String sessionId);
 
 }

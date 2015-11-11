@@ -1,12 +1,13 @@
 package org.softala.roboapp.repository;
 
 import org.softala.roboapp.model.Session;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  * 
- * @author Tuomas Törmä
+ * @author Tuomas Törmä, Petri Kortelainen
  * @Since 14.10.2015
  * 
  *  * The MIT License (MIT)
@@ -34,7 +35,8 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface SessionRepository extends CrudRepository<Session, String> {
 	
-	@Query("INSERT INTO session (id, created) VALUES(?, NOW()")
-	public Session newSession(String id);
+	@Modifying
+	@Query(value= "INSERT INTO Session (id, created) values (?, ?", nativeQuery = true)
+	public Session newSession(String id,String date);
 
 }

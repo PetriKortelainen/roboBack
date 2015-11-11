@@ -35,6 +35,7 @@ public class GivenAnswerController {
 	@ResponseBody
 	public ArrayList<AnswerLevelPerAnswer> getAnswerPerQuestion(){
 		return givenAnswerRepository.getAnswerPerQuestion();
+		
 	}
 	
 

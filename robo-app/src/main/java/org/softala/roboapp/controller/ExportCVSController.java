@@ -104,7 +104,7 @@ public class ExportCVSController {
 			//Get All given answers from db
 			Iterable<GivenAnswer> answerIterator = givenAnswersRepository.findAll();
 			
-			ArrayList<GivenAnswer> answerList = new ArrayList<>();
+			ArrayList<GivenAnswer> answerList = new ArrayList<GivenAnswer>();
 		
 			for (GivenAnswer givenAnswer : answerIterator) {
 				answerList.add(givenAnswer);
