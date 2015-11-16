@@ -97,8 +97,10 @@ public class FrontendController {
 			test = AHB.getSession_id();
 		}catch(Exception e){e.printStackTrace();}
 		
+		//testataan joskus tässä onko olemassa id annettuna
 		if(test != null && test != ""){
 			id = test;
+			session.setSessionId(id);
 		}else{
 		 session = FrontendController.this.newSession();
 		 id = session.getSessionId();
