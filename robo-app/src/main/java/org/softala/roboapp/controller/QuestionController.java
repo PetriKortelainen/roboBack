@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  * 
+ * Controller mappings for accessing the QuestionRepository
  */
 
 @RestController
@@ -43,12 +44,21 @@ public class QuestionController {
 	@Autowired
 	private QuestionRepository questionrepository;
 	
+	/**
+	 * Fetches all questions using the findAll method of Spring's CrudRepository
+	 * @return
+	 */
 	@RequestMapping("/repository/all")
 	public Iterable<Question> allquestions(){
 		Iterable<Question> questions = questionrepository.findAll();
 		return questionrepository.findAll();
 	}
 	
+	/**
+	 * Fetches a question using the findOne method of Spring's CrudRepository
+	 * @param id
+	 * @return the question with the specified id
+	 */
 	@RequestMapping("/repository/{id}")
 	public Question getQuestionById(@PathVariable("id") Integer id){
 		Question question = questionrepository.findOne(id);

@@ -30,6 +30,7 @@ import org.springframework.data.repository.CrudRepository;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  * 
+ * Implementation of Spring's CrudRepository for user sessions
  */
 public interface SessionRepository extends CrudRepository<Session, String> {
 

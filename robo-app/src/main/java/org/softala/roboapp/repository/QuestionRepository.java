@@ -33,13 +33,12 @@ import org.springframework.stereotype.Repository;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  * 
+ * Implementation of Spring's CrudRepository for questions
  */
 @Repository
 public interface QuestionRepository extends CrudRepository<Question, Integer> {
 
 	@Query("select q from Question q where q.id = ?")
 	public Question findByQuestionId(String id);
-	
 
-	
 }
