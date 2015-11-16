@@ -11,6 +11,7 @@ SET foreign_key_checks = 1;
 
 CREATE TABLE dialog(
   dialog_id INT NOT NULL AUTO_INCREMENT,
+  question_id INT NOT NULL,
   name VARCHAR(300) NOT NULL,
   enabled BOOLEAN NOT NULL DEFAULT '0',
   created DATETIME,
@@ -19,7 +20,6 @@ CREATE TABLE dialog(
 
 CREATE TABLE question(
   question_id INT NOT NULL AUTO_INCREMENT,
-  dialog_id INT NOT NULL,
   text VARCHAR(1000) NOT NULL,
   answer_type VARCHAR(16) NOT NULL,
   PRIMARY KEY (question_id)
@@ -56,9 +56,9 @@ CREATE TABLE session(
   PRIMARY KEY (session_id)
 ) ENGINE=InnoDB;
 
-ALTER TABLE question
+ALTER TABLE dialog
 ADD CONSTRAINT fk_question_dialog_id
-FOREIGN KEY (dialog_id) REFERENCES dialog (dialog_id)
+FOREIGN KEY (question_id) REFERENCES question (question_id)
 ON UPDATE CASCADE
 ON DELETE NO ACTION;
 
