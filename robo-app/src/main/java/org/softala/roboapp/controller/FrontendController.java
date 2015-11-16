@@ -173,7 +173,9 @@ public class FrontendController {
 					Set<AnswerOption> awos = qn.getAnswerOptions();
 					for(AnswerOption ao : awos){
 						Set<GivenAnswer> gaw = ao.getGivenAnswers();
+						System.out.println("gawfull:"+gaw);
 						gaw.clear();			
+						System.out.println("gawclear"+gaw);
 					}
 				}	
 			}
