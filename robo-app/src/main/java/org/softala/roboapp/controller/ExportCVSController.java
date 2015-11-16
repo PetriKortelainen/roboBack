@@ -51,7 +51,7 @@ public class ExportCVSController {
 	private GivenAnswerRepository givenAnswersRepository;
 	
 	/**
-	 * Test to return sample CVS export file
+	 * Test to return sample CSV export file
 	 * 
 	 * @param response HttpServletResponse
 	 */
@@ -95,7 +95,7 @@ public class ExportCVSController {
 	}
 	
 	/**
-	 * Return back to user export CVS to user as file
+	 * Return back to user export CSV to user as file
 	 * 
 	 * @param response HttpServletResponse
 	 */
@@ -104,7 +104,7 @@ public class ExportCVSController {
 			//Setting header informaton
 			response.setContentType("text/csv");
 			LocalDate today = LocalDate.now();
-			String reportName = "CVS export Given Answers "+ today.toString();
+			String reportName = "CSV export Given Answers "+ today.toString()+".csv";
 			response.setHeader("Content-disposition", "attachment;filename="+reportName);
 		
 			//Adding rows
