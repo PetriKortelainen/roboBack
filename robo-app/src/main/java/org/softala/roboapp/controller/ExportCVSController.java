@@ -8,6 +8,7 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletResponse;
 
 import org.softala.roboapp.model.GivenAnswer;
+import org.softala.roboapp.process.IteratorProcesser;
 import org.softala.roboapp.repository.GivenAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +50,11 @@ public class ExportCVSController {
 	@Autowired
 	private GivenAnswerRepository givenAnswersRepository;
 	
+	/**
+	 * Test to return sample CVS export file
+	 * 
+	 * @param response HttpServletResponse
+	 */
 	@RequestMapping(value="/downloadTestCVS")
 	public void downloadTestCVS(HttpServletResponse response){
 		//Setting header informaton
@@ -88,6 +94,11 @@ public class ExportCVSController {
 		}
 	}
 	
+	/**
+	 * Return back to user export CVS to user as file
+	 * 
+	 * @param response HttpServletResponse
+	 */
 	@RequestMapping("/given_answers")
 	public void downloadGivenAnswersCVS(HttpServletResponse response){
 			//Setting header informaton
@@ -104,11 +115,9 @@ public class ExportCVSController {
 			//Get All given answers from db
 			Iterable<GivenAnswer> answerIterator = givenAnswersRepository.findAll();
 			
-			ArrayList<GivenAnswer> answerList = new ArrayList<>();
-		
-			for (GivenAnswer givenAnswer : answerIterator) {
-				answerList.add(givenAnswer);
-			}
+			IteratorProcesser<GivenAnswer> processor = new IteratorProcesser<GivenAnswer>();
+			
+			ArrayList<GivenAnswer> answerList = processor.processToArrayList(answerIterator);
 			
 			for (GivenAnswer givenAnswer : answerList) {
 				rows.add(givenAnswer.getSession().getSessionId()+","+givenAnswer.getAnswerOption().getQuestion().getDialog().getDialogId()+","+ givenAnswer.getAnswerOption().getQuestion().getText() +","+ givenAnswer.getAnswerOption().getText());
