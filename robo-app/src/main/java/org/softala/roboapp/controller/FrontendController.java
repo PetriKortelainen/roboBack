@@ -5,6 +5,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.softala.roboapp.model.AnswerOption;
@@ -24,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -88,7 +91,7 @@ public class FrontendController {
 	 * @param AHB
 	 * @return
 	 */
-	public ResponseEntity<String> saveClick(@RequestBody AnswerHandlerBean AHB) {
+	public @ResponseBody HashMap<String, String> saveClick(@RequestBody AnswerHandlerBean AHB) {
 
 		/*
 		 * AHB is a bean that contains information on a single clickreceive a
@@ -154,8 +157,11 @@ public class FrontendController {
 
 		GivAnswRepository.save(ga);
 		
-		id = "{"+id +"}";
-		return new ResponseEntity<String>(id, HttpStatus.OK);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("session_id",id);
+		
+		id = "{"+'\u201C'+"session_id"+'\u201C'+":"+'\u201C'+id +'\u201C'+"}";
+		return map;
 	}
 
 	@RequestMapping("/getTree")
