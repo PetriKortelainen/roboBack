@@ -66,14 +66,12 @@ public class DialogController {
 		Question child = new Question();
 		child.setText("Tämähän oli 2 kysymys");
 		child.setParent(question);
-		question.setDialog(dialog);
 		child.setAnswerType("choice");
 		question.getChildren().add(child);
 		
 		Question greandChild = new Question();
 		greandChild.setText("Tämähän oli 3 kysymys");
 		greandChild.setParent(child);
-		question.setDialog(dialog);
 		greandChild.setAnswerType("choice");
 		child.getChildren().add(greandChild);
 		
