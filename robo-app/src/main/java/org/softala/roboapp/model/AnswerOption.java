@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
@@ -144,6 +145,7 @@ public class AnswerOption implements java.io.Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "answerOption")
 	@JsonManagedReference
+	@JsonIgnore
 	public Set<GivenAnswer> getGivenAnswers() {
 		return this.givenAnswers;
 	}
