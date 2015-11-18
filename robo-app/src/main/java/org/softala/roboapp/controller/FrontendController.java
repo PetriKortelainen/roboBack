@@ -37,12 +37,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 /*
  * TODO commentoi toiminta Generoi Sesson ID, Tallenna kantaan vastauksia
+ * Java class for common communication with front end.
+ * FEATURES: session generation, saving user responses to database 
+ * and handling the dialogues for frontend
  */
 
 @RestController
 @RequestMapping("/Front")
-// "FrontTEST" for now but later well change it to "/" - when so remove this
+// "Front" for now but may later be changed to "/" - when so remove this
 // comment
+
 public class FrontendController {
 
 	@Autowired
@@ -54,9 +58,13 @@ public class FrontendController {
 	@Autowired
 	private DialogRepository dialogrepository;
 
+	/**
+	 * Session generator. ID is made into hashmap from miliseconds
+	 * uses hashString method below to do so
+	 * @return session (bean)
+	 */
 	public Session newSession() {
-		// TODO Maybe not executed here WIP
-		// session generator
+		// Session generator
 		Session session = new Session();
 		Date date = new Date();
 
@@ -73,7 +81,6 @@ public class FrontendController {
 				genID = "" + hash;
 				genID = FrontendController.this.hashString(genID);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			// if id already exists which is very unlikely another id is made
@@ -83,7 +90,7 @@ public class FrontendController {
 		session.setSessionId(genID);
 		session.setCreated(date);
 
-		// sessio tallenetaan muualla atm
+		// Session saved for later use to record clicks
 		sessionRepository.save(session);
 		return session;
 	}
@@ -115,12 +122,14 @@ public class FrontendController {
 		HashMap<String, String> resMap = new HashMap<String, String>();
 
 		try {
+			//attempt to read given json on value session_id
 			testId = AHB.getSession_id();
 		} catch (Exception e) {
 			e.printStackTrace();
+			resMap.put("WARNING:", "Unknown error");
+			return resMap;
 		}
 
-		// testataan joskus tässä onko olemassa id annettuna
 		if (testId != null && testId != "") {
 			// TIME TO CHECK SESSION ID
 			if (sessionRepository.exists(testId)) {
@@ -178,6 +187,11 @@ public class FrontendController {
 
 		ArrayList<Dialog> d = new ArrayList<Dialog>();
 		ArrayList<Integer> a = null;
+		
+		
+		int Random = (int)(Math.random()*100);
+		/*
+		 * code to get all trees at the same time
 		try {
 			a = dialogrepository.findEnabled();
 			for (int i = 0; i < a.size(); i++) {
@@ -186,7 +200,16 @@ public class FrontendController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		*/
+		// Code to pick randomly from multiple trees
+		try {
+			a = dialogrepository.findEnabled();
+			Random = (int)(1+Math.random()*a.size());
+			d.add(dialogrepository.findOne(Random));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return d;
 	}
 
