@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * 
- * @author Tuomas Törmä and Kortelainen Petri
+ * @author Tuomas Törmä, Kortelainen Petri
  * @Since 14.10.2015
  * 
  */
