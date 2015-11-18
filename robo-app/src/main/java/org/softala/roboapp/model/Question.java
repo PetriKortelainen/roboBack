@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -39,6 +40,9 @@ public class Question implements java.io.Serializable {
 	private String text;
 	private String answerType;
 	private Set<AnswerOption> answerOptions = new HashSet<AnswerOption>();
+	
+	private Question parent;
+	private Set<Question> children = new HashSet<Question>();
 
 	public Question() {
 	}
@@ -55,6 +59,19 @@ public class Question implements java.io.Serializable {
 		this.text = text;
 		this.answerType = answerType;
 		this.answerOptions = answerOptions;
+	}
+	
+	public Question(Integer questionId, Dialog dialog, String text,
+			String answerType, Set<AnswerOption> answerOptions,
+			Question parent, Set<Question> children) {
+		super();
+		this.questionId = questionId;
+		this.dialog = dialog;
+		this.text = text;
+		this.answerType = answerType;
+		this.answerOptions = answerOptions;
+		this.parent = parent;
+		this.children = children;
 	}
 
 	@Id
@@ -106,5 +123,27 @@ public class Question implements java.io.Serializable {
 	public void setAnswerOptions(Set<AnswerOption> answerOptions) {
 		this.answerOptions = answerOptions;
 	}
+
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JsonBackReference
+	public Question getParent() {
+		return parent;
+	}
+
+	public void setParent(Question parent) {
+		this.parent = parent;
+	}
+
+	@OneToMany(cascade=CascadeType.ALL)
+	@JsonManagedReference
+	public Set<Question> getChildren() {
+		return children;
+	}
+
+	public void setChildren(Set<Question> children) {
+		this.children = children;
+	}
+	
+	
 
 }

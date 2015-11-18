@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.persistence.Query;
 
+import org.apache.log4j.Logger;
 import org.softala.roboapp.model.GivenAnswer;
 import org.softala.roboapp.model.helpModels.AnswerLevelPerAnswer;
 import org.softala.roboapp.repository.GivenAnswerRepository;
@@ -24,6 +25,9 @@ import antlr.collections.List;
 @RequestMapping("/givenanswers")
 public class GivenAnswerController {
 	
+	//logging
+	private Logger log = Logger.getLogger(GivenAnswerController.class);
+	
 	@Autowired
 	private GivenAnswerRepository givenAnswerRepository;
 	
@@ -33,6 +37,7 @@ public class GivenAnswerController {
 	 */
 	@RequestMapping("/repository/all")
 	public Iterable<GivenAnswer> allquestions(){
+		log.debug("find all GivenAnswers...");
 		return givenAnswerRepository.findAll();
 	}
 	
@@ -44,6 +49,7 @@ public class GivenAnswerController {
 	@RequestMapping("/repository/getAnswerPerQuestion")
 	@ResponseBody
 	public ArrayList<AnswerLevelPerAnswer> getAnswerPerQuestion(){
+		log.debug("find all getAnswerPerQuestion...");
 		return givenAnswerRepository.getAnswerPerQuestion();
 	}
 	

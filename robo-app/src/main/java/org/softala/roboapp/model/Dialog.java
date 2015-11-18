@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -99,7 +100,7 @@ public class Dialog implements java.io.Serializable {
 		this.created = created;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dialog")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dialog",cascade=CascadeType.ALL )
 	@JsonManagedReference
 	public Set<Question> getQuestions() {
 		return this.questions;

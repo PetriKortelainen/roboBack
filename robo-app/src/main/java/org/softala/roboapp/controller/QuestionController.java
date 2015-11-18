@@ -1,5 +1,6 @@
 package org.softala.roboapp.controller;
 
+import org.apache.log4j.Logger;
 import org.softala.roboapp.model.Question;
 import org.softala.roboapp.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/questions")
 public class QuestionController {
 	
+	//logging
+	private Logger log = Logger.getLogger(GivenAnswerController.class);
+	
 	@Autowired
 	private QuestionRepository questionrepository;
 	
@@ -28,6 +32,7 @@ public class QuestionController {
 	 */
 	@RequestMapping("/repository/all")
 	public Iterable<Question> allquestions(){
+		log.debug("get all questions...");
 		Iterable<Question> questions = questionrepository.findAll();
 		return questionrepository.findAll();
 	}
@@ -39,6 +44,7 @@ public class QuestionController {
 	 */
 	@RequestMapping("/repository/{id}")
 	public Question getQuestionById(@PathVariable("id") Integer id){
+		log.debug("get question with id" + id +" ...");
 		Question question = questionrepository.findOne(id);
 		return question;
 	}

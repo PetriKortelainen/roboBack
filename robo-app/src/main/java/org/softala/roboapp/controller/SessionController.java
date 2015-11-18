@@ -1,5 +1,6 @@
 package org.softala.roboapp.controller;
 
+import org.apache.log4j.Logger;
 import org.softala.roboapp.model.Session;
 import org.softala.roboapp.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/sessions")
 public class SessionController {
 	
+	//logging
+	private Logger log = Logger.getLogger(SessionController.class);
+	
 	@Autowired
 	private SessionRepository sessionRepository;
 	
@@ -26,6 +30,7 @@ public class SessionController {
 	 */
 	@RequestMapping("/repository/all")
 	public Iterable<Session> getAllSessions(){
+		log.debug("get all sessions...");
 		return sessionRepository.findAll();
 	}
 	
@@ -36,6 +41,7 @@ public class SessionController {
 	 */
 	@RequestMapping("/repository/{id}")
 	public Session getQuestionById(@PathVariable("id") String id){
+		log.debug("get sessions...");
 		return sessionRepository.findOne(id);
 	}
 }
