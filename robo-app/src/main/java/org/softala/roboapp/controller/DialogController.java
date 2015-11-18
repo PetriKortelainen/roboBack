@@ -1,5 +1,6 @@
 package org.softala.roboapp.controller;
 
+import org.apache.log4j.Logger;
 import org.softala.roboapp.model.Dialog;
 import org.softala.roboapp.repository.DialogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/dialog")
 public class DialogController {
 	
+	//logging
+	private Logger log = Logger.getLogger(DialogController.class);
+	
 	@Autowired
 	private DialogRepository dialogrepository;
 	
@@ -28,6 +32,7 @@ public class DialogController {
 	 */
 	@RequestMapping("/repository/all")
 	public Iterable<Dialog> getAllDialogs(){
+		log.info("fetching all dialogs");
 		return dialogrepository.findAll();
 	}
 	
@@ -38,6 +43,7 @@ public class DialogController {
 	 */
 	@RequestMapping("/repository/{id}")
 	public Dialog getDialogWithId(@PathVariable("id") Integer id){
+		log.info("fetching all dialogs");
 		return dialogrepository.findOne(id);
 	}
 

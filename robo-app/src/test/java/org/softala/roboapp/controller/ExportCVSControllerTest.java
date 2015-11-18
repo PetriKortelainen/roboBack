@@ -32,7 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 public class ExportCVSControllerTest {
 	
 	@InjectMocks
-	ExportCVSController controller;
+	ExportCSVController controller;
 	
 	@Autowired
 	WebApplicationContext context;
