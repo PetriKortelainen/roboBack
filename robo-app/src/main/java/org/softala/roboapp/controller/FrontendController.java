@@ -29,12 +29,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 
- * @author team 1 - Petri Kortelainen
- *
- */
-
 /*
  * TODO commentoi toiminta Generoi Sesson ID, Tallenna kantaan vastauksia
  * Java class for common communication with front end.
@@ -42,6 +36,12 @@ import org.springframework.web.bind.annotation.RestController;
  * and handling the dialogues for frontend
  */
 
+/**
+ * Controller mappings for customer front end.
+ * 
+ * @author Team 1 - Petri Kortelainen
+ *
+ */
 @RestController
 @RequestMapping("/Front")
 // "Front" for now but may later be changed to "/" - when so remove this
@@ -95,12 +95,13 @@ public class FrontendController {
 		return session;
 	}
 
-	@RequestMapping(value = "/postClick", method = RequestMethod.POST)
 	/**
-	 * On each click frontend sends post here which is saved into database
-	 * @param AHB
-	 * @return
+	 * On each click the front end sends post here which is saved into database
+	 * Generates new anonymous user session if one doesn't exist 
+	 * @param AHB Answer handler
+	 * @return map containing session id
 	 */
+	@RequestMapping(value = "/postClick", method = RequestMethod.POST)
 	public @ResponseBody HashMap<String, String> saveClick(
 			@RequestBody AnswerHandlerBean AHB) {
 
@@ -175,11 +176,11 @@ public class FrontendController {
 		return resMap;
 	}
 
-	@RequestMapping("/getTree")
 	/**
 	 * Give tree to backend
 	 * @return
 	 */
+	@RequestMapping("/getTree")
 	public Iterable getTree() {
 
 		// TODO handle multiple threes so that only 1 is given to frontend based
@@ -214,10 +215,10 @@ public class FrontendController {
 	}
 
 	/**
-	 * hash map generator
+	 * Generates hashed string to be used as user session ids
 	 * 
-	 * @param s
-	 * @return
+	 * @param s string to be hashed
+	 * @return hashed string
 	 * @throws NoSuchAlgorithmException
 	 */
 	public String hashString(String s) throws NoSuchAlgorithmException {
