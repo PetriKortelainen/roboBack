@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  * 
+ * Controller mappings for accessing the DialogRepository
  */
 
 @RestController
@@ -43,11 +44,20 @@ public class DialogController {
 	@Autowired
 	private DialogRepository dialogrepository;
 	
+	/**
+	 * Fetches all dialogs using the findAll method of Spring's CrudRepository
+	 * @return all dialogs from the database
+	 */
 	@RequestMapping("/repository/all")
 	public Iterable<Dialog> getAllDialogs(){
 		return dialogrepository.findAll();
 	}
 	
+	/**
+	 * Fetches a dialog using the findOne method of Spring's CrudRepository
+	 * @param id
+	 * @return the dialog with the specified id
+	 */
 	@RequestMapping("/repository/{id}")
 	public Dialog getDialogWithId(@PathVariable("id") Integer id){
 		return dialogrepository.findOne(id);
