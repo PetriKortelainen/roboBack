@@ -49,6 +49,12 @@ public interface GivenAnswerRepository extends CrudRepository<GivenAnswer, Long>
 	@Query(value = "select q.text as question_text, ao.text as answer_option_text, count(ga.created) as answers from answer_option ao join given_answer ga on ga.answer_option_id = ao.answer_option_id join question q on ao.question_id = q.question_id group by ao.answer_option_id;", nativeQuery = true )
 	public ArrayList<AnswerLevelPerAnswer> getAnswerPerQuestion();
 	
+	/**
+	 * Saves users answer click
+	 * @param date Timestamp of user click
+	 * @param aoid answer option id
+	 * @param sessionId user session id
+	 */
 	@Modifying
 	@Query(value= "INSERT INTO given_answer (created, answer_option_id,session_id) values (?, ?, ?", nativeQuery = true)
 	public void newClick(String date, String aoid, String sessionId);

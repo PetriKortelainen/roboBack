@@ -24,15 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * 
- * @author team 1 - Petri Kortelainen
+ * Controller for the customer front
+ * @author Team 1 - Petri Kortelainen
  *
  */
-
-/*
- * Controller to communicate with frontend on click and more...
- */
-
 @RestController
 @RequestMapping("/FrontTEST") 
 //"FrontTEST" for now but later well change it to "/" - when so remove this comment
@@ -46,8 +41,10 @@ public class FrontendController {
 	@Autowired
 	private SessionRepository sessionRepository;
 	
-
-	
+	/**
+	 * Generates an anonymous user session to be used in user answers
+	 * @return user session object
+	 */
 	public Session newSession(){
 		//	TODO Maybe not executed here WIP
 		Session session = new Session();
@@ -78,6 +75,12 @@ public class FrontendController {
 		
 		return session;
 	}
+	
+	/**
+	 * Handles user clicks from the frontend
+	 * @param AHB Handler bean for answers
+	 * @return
+	 */
 	@RequestMapping(value="/postClick",method = RequestMethod.POST)
 	public ResponseEntity<String> saveClick(@RequestBody AnswerHandlerBean AHB){
 		

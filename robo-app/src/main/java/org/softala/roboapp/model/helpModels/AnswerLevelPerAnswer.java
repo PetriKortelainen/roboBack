@@ -1,9 +1,5 @@
 package org.softala.roboapp.model.helpModels;
 
-import javax.persistence.EntityResult;
-import javax.persistence.FieldResult;
-import javax.persistence.SqlResultSetMapping;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AnswerLevelPerAnswer {

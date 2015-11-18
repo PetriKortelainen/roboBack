@@ -35,6 +35,12 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface SessionRepository extends CrudRepository<Session, String> {
 	
+	/**
+	 * Insert new user session to db
+	 * @param id user session id
+	 * @param date session create time
+	 * @return
+	 */
 	@Modifying
 	@Query(value= "INSERT INTO Session (id, created) values (?, ?", nativeQuery = true)
 	public Session newSession(String id,String date);
