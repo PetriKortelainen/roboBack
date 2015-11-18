@@ -8,6 +8,7 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletResponse;
 
 import org.softala.roboapp.model.GivenAnswer;
+import org.softala.roboapp.process.IteratorProcesser;
 import org.softala.roboapp.repository.GivenAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,28 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Tuomas Törmä
  * @Since 14.10.2015
  * 
- *  * The MIT License (MIT)
- *
- * Copyright (c) 2015 Haaga-Helia ammattikorkeakoulu Oy ab
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- * 
+ * RestController class that manages export CSV files.
  */
 
 @RestController
@@ -49,6 +29,11 @@ public class ExportCVSController {
 	@Autowired
 	private GivenAnswerRepository givenAnswersRepository;
 	
+	/**
+	 * Test to return sample CSV export file
+	 * 
+	 * @param response HttpServletResponse
+	 */
 	@RequestMapping(value="/downloadTestCVS")
 	public void downloadTestCVS(HttpServletResponse response){
 		//Setting header informaton
@@ -88,12 +73,17 @@ public class ExportCVSController {
 		}
 	}
 	
+	/**
+	 * Return back to user export CSV to user as file
+	 * 
+	 * @param response HttpServletResponse
+	 */
 	@RequestMapping("/given_answers")
 	public void downloadGivenAnswersCVS(HttpServletResponse response){
 			//Setting header informaton
 			response.setContentType("text/csv");
 			LocalDate today = LocalDate.now();
-			String reportName = "CVS export Given Answers "+ today.toString();
+			String reportName = "CSV export Given Answers "+ today.toString()+".csv";
 			response.setHeader("Content-disposition", "attachment;filename="+reportName);
 		
 			//Adding rows
@@ -104,11 +94,9 @@ public class ExportCVSController {
 			//Get All given answers from db
 			Iterable<GivenAnswer> answerIterator = givenAnswersRepository.findAll();
 			
-			ArrayList<GivenAnswer> answerList = new ArrayList<>();
-		
-			for (GivenAnswer givenAnswer : answerIterator) {
-				answerList.add(givenAnswer);
-			}
+			IteratorProcesser<GivenAnswer> processor = new IteratorProcesser<GivenAnswer>();
+			
+			ArrayList<GivenAnswer> answerList = processor.processToArrayList(answerIterator);
 			
 			for (GivenAnswer givenAnswer : answerList) {
 				rows.add(givenAnswer.getSession().getSessionId()+","+givenAnswer.getAnswerOption().getQuestion().getDialog().getDialogId()+","+ givenAnswer.getAnswerOption().getQuestion().getText() +","+ givenAnswer.getAnswerOption().getText());
@@ -134,8 +122,5 @@ public class ExportCVSController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
 	}
-
 }

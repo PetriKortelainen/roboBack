@@ -1,4 +1,5 @@
 #!/bin/sh
+#Made by Tuomas Torma
 SERVICE_NAME=Roboapp_backend
 PATH_TO_JAR=/var/local/roboapp/robo-app-1.0-SNAPSHOT.jar
 PID_PATH_NAME=/tmp/Roboapp_backend-pid
