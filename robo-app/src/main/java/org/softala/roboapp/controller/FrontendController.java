@@ -33,13 +33,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 /*
- * Controller to communicate with frontend on click and more...
+ * TODO commentoi toiminta
+ * Generoi Sesson ID, Tallenna kantaan vastauksia
  */
 
 @RestController
 @RequestMapping("/FrontTEST")
-// "FrontTEST" for now but later well change it to "/" - when so remove this
-// comment
+// "FrontTEST" for now but later well change it to "/" - when so remove this comment
 public class FrontendController {
 
 	@Autowired
@@ -83,6 +83,11 @@ public class FrontendController {
 	}
 
 	@RequestMapping(value = "/postClick", method = RequestMethod.POST)
+	/**
+	 * 
+	 * @param AHB
+	 * @return
+	 */
 	public ResponseEntity<String> saveClick(@RequestBody AnswerHandlerBean AHB) {
 
 		/*
@@ -148,11 +153,16 @@ public class FrontendController {
 		ga.setAnswerOption(ao);
 
 		GivAnswRepository.save(ga);
-
+		
+		id = "{"+id +"}";
 		return new ResponseEntity<String>(id, HttpStatus.OK);
 	}
 
 	@RequestMapping("/getTree")
+	/**
+	 * 
+	 * @return
+	 */
 	public Iterable getTree() {
 		//Extreamly ugly code, done in rush
 		//method handles data from database and fixes it
@@ -165,19 +175,6 @@ public class FrontendController {
 			a = dialogrepository.findEnabled();
 			for(int i=0; i<a.size(); i++){
 				d.add(dialogrepository.findOne(a.get(i)));
-			}
-			for(int i=0; i<a.size(); i++){
-				Dialog x = d.get(i);
-				Set<Question> questions = x.getQuestions();
-				for(Question qn : questions){
-					Set<AnswerOption> awos = qn.getAnswerOptions();
-					for(AnswerOption ao : awos){
-						Set<GivenAnswer> gaw = ao.getGivenAnswers();
-						System.out.println("gawfull:"+gaw);
-						gaw.clear();			
-						System.out.println("gawclear"+gaw);
-					}
-				}	
 			}
 		}catch(Exception e){
 			e.printStackTrace();

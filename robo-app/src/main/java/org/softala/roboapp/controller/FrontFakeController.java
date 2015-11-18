@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/FrontFake")
 public class FrontFakeController {
-	/*A TEST controller for development purposes
+	/*TODO A TEST controller for development purposes
 	 * all content below should either be transfered or
 	 * deleted in final version */
 	
