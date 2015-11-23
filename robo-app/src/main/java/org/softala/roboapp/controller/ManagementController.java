@@ -12,12 +12,12 @@ import org.softala.roboapp.model.AnswerOption;
 import org.softala.roboapp.model.Dialog;
 import org.softala.roboapp.model.Hello;
 import org.softala.roboapp.model.Question;
-import org.softala.roboapp.model.helpModels.DialogConverter;
 import org.softala.roboapp.model.helpModels.DialogRestBean;
 import org.softala.roboapp.model.helpModels.ManagementRestBean;
 import org.softala.roboapp.repository.AnswerOptionRepository;
 import org.softala.roboapp.repository.DialogRepository;
 import org.softala.roboapp.repository.QuestionRepository;
+import org.softala.roboapp.util.DialogConverter;
 import org.softala.roboapp.util.GsonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,57 +43,37 @@ public class ManagementController {
 	@Autowired
 	private AnswerOptionRepository answerOptionRepository;
 	
+	/**
+	 * Saves single dialogs given by the front-end.
+	 * 
+	 * @param json
+	 */
 	@RequestMapping(value = "/post", method = RequestMethod.POST)
 	public void postJson (@RequestBody String json) {
 		GsonFactory gson = new GsonFactory();
+		// Convert the json to rest beans.
 		DialogRestBean drb = gson.convertJsonToObject(DialogRestBean.class, json);
 		
 		DialogConverter converter = new DialogConverter();
 		
+		//Convert the rest beans to hibernate beans.
 		Dialog dialog = converter.convertDialogToHibernate(drb);
 		
 		dialogRepository.save(dialog);
-		
-
-		
-		//Iterator<Question> iter = questionRepository.save(dialog.getQuestions()).iterator();
-		
+		//Save questions, get the next question ids and set them to the correct answers.
 		for(Question currentQuestion : dialog.getQuestions()) {
-			System.out.println(currentQuestion.getText());
-			
-			for(AnswerOption ao: currentQuestion.getAnswerOptions()) {
-				System.out.println("asdasd " + ao.getText());
-			}
-			
 			int nextQuestionId = questionRepository.save(currentQuestion).getQuestionId();
 			
 			AnswerOption previousAnswerOption = converter.nextQuestionMap.get(currentQuestion);
 			if(previousAnswerOption != null) {
 				previousAnswerOption.setNextQuestionId(nextQuestionId);
-				System.out.println(previousAnswerOption.getNextQuestionId());
 			}
 		}
 		
+		//Save answers.
 		for(Question currentQuestion : dialog.getQuestions()) {
 			answerOptionRepository.save(currentQuestion.getAnswerOptions());
 		}
-		
-		/*while(iter.hasNext()) {
-			Question q = iter.next();
-			System.out.println(q.getQuestionId() + " " + q.getText());
-		}*/
-		
-		Iterator<Question> it = dialog.getQuestions().iterator();
-		
-/*		while(it.hasNext()) {
-			Question currentQuestion = it.next();
-			int nextQuestionId = questionRepository.save(currentQuestion).getQuestionId();
-			AnswerOption currentAnswerOption = converter.nextQuestionMap.get(currentQuestion);
-			if(currentAnswerOption != null) {
-				currentAnswerOption.setAnswerOptionId(nextQuestionId);
-				answerOptionRepository.save(currentQuestion.getAnswerOptions());
-			}
-		}*/
 	}
 	
 	@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
@@ -104,7 +84,9 @@ public class ManagementController {
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
 	public void deleteDialog(@PathVariable("id") Integer id) {
 		Dialog dialog = dialogRepository.findOne(id);
-		dialogRepository.delete(dialog);
+		if(!dialog.isEnabled()) {
+			dialogRepository.delete(dialog);
+		}
 	}
 	
 	@RequestMapping(value = "activate/{id}", method = RequestMethod.GET)

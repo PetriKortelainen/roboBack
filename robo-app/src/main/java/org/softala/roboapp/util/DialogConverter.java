@@ -1,4 +1,4 @@
-package org.softala.roboapp.model.helpModels;
+package org.softala.roboapp.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +10,8 @@ import java.util.Set;
 import org.softala.roboapp.model.AnswerOption;
 import org.softala.roboapp.model.Dialog;
 import org.softala.roboapp.model.Question;
+import org.softala.roboapp.model.helpModels.DialogNodeRestBean;
+import org.softala.roboapp.model.helpModels.DialogRestBean;
 
 /**
  *@author team3
@@ -22,8 +24,13 @@ public class DialogConverter {
 	
 	public Map<Question, AnswerOption> nextQuestionMap = new HashMap<Question, AnswerOption>();
 	
+	/**
+	 * Converts first question separately then the sub answers and questions using convertSubNodesToHibernate().
+	 *  
+	 * @param dialogRestBean
+	 * @return
+	 */
 	public Dialog convertDialogToHibernate(DialogRestBean dialogRestBean) {
-		System.out.println("convertDialogToHibernate");
 		dialog.setName(dialogRestBean.getDialogName());
 		dialog.setCreated(dialogRestBean.getDialogCreated());
 		
@@ -31,41 +38,40 @@ public class DialogConverter {
 		
 		questions.add(firstQuestion);
 		
+		//Wololo wololo wololo
 		Set<AnswerOption> answers = convertSubNodesToHibernate(dialogRestBean.getDialogNodes());
 		
+		//Set the firstQuestion as the previous question for the first sub answers.
 		for(AnswerOption answerOption : answers) {
 			answerOption.setQuestion(firstQuestion);
 		}
 		
+		//Set the sub answers to the firstQuestion.
 		questions.iterator().next().setAnswerOptions(answers);
 		
-		//print for debugging
-		for(Question q : questions) {
-			Set<AnswerOption> ansOptions = q.getAnswerOptions();
-			for(AnswerOption a : ansOptions) {
-				System.out.println("q" + q.getText() + "a" + a.getText());
-			}
-		}
-		
-		Set<Question> foo = new HashSet<Question>(questions);
-		dialog.setQuestions(foo);
+		//Convert the list of questions to Seq.
+		Set<Question> questionSet = new HashSet<Question>(questions);
+		//Set all of the converted questions to the dialog.
+		dialog.setQuestions(questionSet);
 		
 		return dialog;
 	}
 	
 	/**
-	 * Traverses tree and converts the sub nodes to matching hibernate beans
-	 * @param nodes
-	 * @return
+	 * Traverses dialog tree and converts the sub nodes to matching hibernate beans
+	 * 
+	 * @param nodes 	list of rest bean nodes
+	 * @return			list of hibernate AnswerOptions
 	 */
 	private Set<AnswerOption> convertSubNodesToHibernate(List<DialogNodeRestBean> nodes) {	
 		Set<AnswerOption> hibernateAnswers = new HashSet<AnswerOption>();
 		
+		//Loop through rest bean nodes given in the arguments.
 		for(DialogNodeRestBean node : nodes) {
+			//Convert only if the current node's answer text is not empty.
 			if(!node.getAnswerText().isEmpty()) {
 				AnswerOption hibernateAnswer = new AnswerOption();
 				hibernateAnswer.setText(node.getAnswerText());
-				System.out.println("hibernateAnswer: " + hibernateAnswer.getText());
 				
 				if(!node.getQuestionText().isEmpty()) {
 					Question hibernateQuestion = new Question();
@@ -75,21 +81,15 @@ public class DialogConverter {
 
 					//set the questions of subAnswers to the current question
 					for(AnswerOption subAnswer: subAnswers) {
-						System.out.println("subAnswer:" + subAnswer.getText());
+						//set the previous question for sub answers to the current question
 						subAnswer.setQuestion(hibernateQuestion);
-						//put the current answer and its next questions to a map
+						//put the current answer and its next question to a map
 						nextQuestionMap.put(subAnswer.getQuestion(), hibernateAnswer);
 					}
 					
 					hibernateQuestion.setAnswerOptions(subAnswers);
-					for(AnswerOption ao: hibernateQuestion.getAnswerOptions()) {
-						System.out.println("hibernateQuestion answers: " + ao.getText());
-					}
 					
-					//set the previous question for the current answer
-					//hibernateAnswer.setQuestion(hibernateQuestion);
-					
-					hibernateQuestion.setAnswerType("");
+					hibernateQuestion.setAnswerType("choice");
 					hibernateQuestion.setDialog(dialog);
 					
 					//add the converted question with its answer options to a Set<Question>
@@ -98,7 +98,6 @@ public class DialogConverter {
 				hibernateAnswers.add(hibernateAnswer);
 			}	
 		}	
-		return hibernateAnswers;
-		
+		return hibernateAnswers;		
 	}
 }
