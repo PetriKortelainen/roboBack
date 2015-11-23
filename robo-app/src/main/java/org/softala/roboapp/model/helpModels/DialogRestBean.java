@@ -10,6 +10,10 @@ import java.util.List;
  * Used for matching backend's dialog tree with the one in the frontend.
  */
 public class DialogRestBean implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8511316147350292867L;
 	private String dialogName;
 	private Date dialogCreated;
 	private String questionText;

@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 public class DialogNodeRestBean implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2574003604889633017L;
 	private String answerText;
 	private int answerOrderIndex;
 	String questionText;

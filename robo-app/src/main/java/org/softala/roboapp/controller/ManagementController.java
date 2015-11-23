@@ -8,12 +8,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.softala.roboapp.model.AnswerOption;
 import org.softala.roboapp.model.Dialog;
 import org.softala.roboapp.model.Hello;
+import org.softala.roboapp.model.Question;
 import org.softala.roboapp.model.helpModels.DialogConverter;
 import org.softala.roboapp.model.helpModels.DialogRestBean;
 import org.softala.roboapp.model.helpModels.ManagementRestBean;
+import org.softala.roboapp.repository.AnswerOptionRepository;
 import org.softala.roboapp.repository.DialogRepository;
+import org.softala.roboapp.repository.QuestionRepository;
 import org.softala.roboapp.util.GsonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +37,12 @@ public class ManagementController {
 	@Autowired
 	private DialogRepository dialogRepository;
 	
+	@Autowired
+	private QuestionRepository questionRepository;
+	
+	@Autowired
+	private AnswerOptionRepository answerOptionRepository;
+	
 	@RequestMapping(value = "/post", method = RequestMethod.POST)
 	public void postJson (@RequestBody String json) {
 		GsonFactory gson = new GsonFactory();
@@ -42,7 +52,48 @@ public class ManagementController {
 		
 		Dialog dialog = converter.convertDialogToHibernate(drb);
 		
-		System.out.println(dialog);
+		dialogRepository.save(dialog);
+		
+
+		
+		//Iterator<Question> iter = questionRepository.save(dialog.getQuestions()).iterator();
+		
+		for(Question currentQuestion : dialog.getQuestions()) {
+			System.out.println(currentQuestion.getText());
+			
+			for(AnswerOption ao: currentQuestion.getAnswerOptions()) {
+				System.out.println("asdasd " + ao.getText());
+			}
+			
+			int nextQuestionId = questionRepository.save(currentQuestion).getQuestionId();
+			
+			AnswerOption previousAnswerOption = converter.nextQuestionMap.get(currentQuestion);
+			if(previousAnswerOption != null) {
+				previousAnswerOption.setNextQuestionId(nextQuestionId);
+				System.out.println(previousAnswerOption.getNextQuestionId());
+			}
+		}
+		
+		for(Question currentQuestion : dialog.getQuestions()) {
+			answerOptionRepository.save(currentQuestion.getAnswerOptions());
+		}
+		
+		/*while(iter.hasNext()) {
+			Question q = iter.next();
+			System.out.println(q.getQuestionId() + " " + q.getText());
+		}*/
+		
+		Iterator<Question> it = dialog.getQuestions().iterator();
+		
+/*		while(it.hasNext()) {
+			Question currentQuestion = it.next();
+			int nextQuestionId = questionRepository.save(currentQuestion).getQuestionId();
+			AnswerOption currentAnswerOption = converter.nextQuestionMap.get(currentQuestion);
+			if(currentAnswerOption != null) {
+				currentAnswerOption.setAnswerOptionId(nextQuestionId);
+				answerOptionRepository.save(currentQuestion.getAnswerOptions());
+			}
+		}*/
 	}
 	
 	@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
@@ -54,6 +105,14 @@ public class ManagementController {
 	public void deleteDialog(@PathVariable("id") Integer id) {
 		Dialog dialog = dialogRepository.findOne(id);
 		dialogRepository.delete(dialog);
+	}
+	
+	@RequestMapping(value = "activate/{id}", method = RequestMethod.GET)
+	public void activateDialog(@PathVariable("id") Integer id) {
+		Dialog dialog = dialogRepository.findOne(id);
+		boolean isEnabled = dialog.isEnabled();
+		dialog.setEnabled(!isEnabled);
+		dialogRepository.save(dialog);
 	}
 	
 	@RequestMapping(value = "get-dialogs", method = RequestMethod.GET)
