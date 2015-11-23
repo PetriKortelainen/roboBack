@@ -18,8 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
+
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -43,7 +45,9 @@ public class Dialog implements java.io.Serializable {
 	private boolean enabled;
 	private Date created;
 	private Set<Question> questions = new HashSet<Question>();
-
+	@Transient
+	private int firstQuestionId;
+	
 	public Dialog() {
 	}
 
@@ -107,6 +111,16 @@ public class Dialog implements java.io.Serializable {
 
 	public void setQuestions(Set<Question> questions) {
 		this.questions = questions;
+	}
+	
+	@Transient
+	public void setFirstQuestion(int firstQuestionId) {
+		this.firstQuestionId = firstQuestionId;
+	}
+	
+	@Transient
+	public int getFirstQuestion() {
+		return this.firstQuestionId;
 	}
 
 }

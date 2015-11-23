@@ -207,8 +207,7 @@ public class FrontendController {
 			Random = (int)(1+Math.random()*a.size());
 			d.add(dialogrepository.findOne(Random));
 			
-			// TODO: insert first question to JSON
-			int first = this.findFirstQuestion(d.get(0));
+			d.get(0).setFirstQuestion(this.findFirstQuestion(d.get(0)));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
