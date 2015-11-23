@@ -189,7 +189,6 @@ public class FrontendController {
 		ArrayList<Dialog> d = new ArrayList<Dialog>();
 		ArrayList<Integer> a = null;
 		
-		
 		int Random = (int)(Math.random()*100);
 		/*
 		 * code to get all trees at the same time
@@ -207,6 +206,10 @@ public class FrontendController {
 			a = dialogrepository.findEnabled();
 			Random = (int)(1+Math.random()*a.size());
 			d.add(dialogrepository.findOne(Random));
+			
+			// TODO: insert first question to JSON
+			int first = this.findFirstQuestion(d.get(0));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -241,6 +244,43 @@ public class FrontendController {
 			}
 		}
 		return sb.toString();
+	}
+	
+	/**
+	 * Loops through questions and answer options to find the first question
+	 * of a dialog
+	 * @param d
+	 * @return
+	 */
+	private int findFirstQuestion(Dialog d) {
+
+		int firstQuestion = -1;
+		
+		ArrayList<Integer> nextQuestionArray = new ArrayList<Integer>();
+		for (Question q : d.getQuestions()) {
+			
+			for(AnswerOption ao : q.getAnswerOptions()) {
+				nextQuestionArray.add(ao.getNextQuestionId());
+			}
+			
+		}
+		
+		for (Question q : d.getQuestions()) {
+			boolean exists = false;
+			int id = q.getQuestionId();
+			
+			for(Integer nq : nextQuestionArray) {
+				if (nq != null && nq == id) {
+					exists = true;
+				}
+			}
+			
+			if (!exists) {
+				firstQuestion = id;
+			}
+		}	
+		
+		return firstQuestion;
 	}
 
 }
