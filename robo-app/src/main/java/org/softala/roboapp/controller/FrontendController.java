@@ -204,8 +204,8 @@ public class FrontendController {
 		// Code to pick randomly from multiple trees
 		try {
 			a = dialogrepository.findEnabled();
-			Random = (int)(1+Math.random()*a.size());
-			d.add(dialogrepository.findOne(Random));
+			Random = (int)(Math.random()*a.size());
+			d.add(dialogrepository.findOne(a.get(Random)));
 			
 			d.get(0).setFirstQuestionId(this.findFirstQuestion(d.get(0)));
 			
