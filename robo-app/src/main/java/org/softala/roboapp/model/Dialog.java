@@ -114,12 +114,12 @@ public class Dialog implements java.io.Serializable {
 	}
 	
 	@Transient
-	public void setFirstQuestion(int firstQuestionId) {
+	public void setFirstQuestionId(int firstQuestionId) {
 		this.firstQuestionId = firstQuestionId;
 	}
 	
 	@Transient
-	public int getFirstQuestion() {
+	public int getFirstQuestionId() {
 		return this.firstQuestionId;
 	}
 

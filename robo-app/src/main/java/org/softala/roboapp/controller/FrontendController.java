@@ -207,7 +207,7 @@ public class FrontendController {
 			Random = (int)(1+Math.random()*a.size());
 			d.add(dialogrepository.findOne(Random));
 			
-			d.get(0).setFirstQuestion(this.findFirstQuestion(d.get(0)));
+			d.get(0).setFirstQuestionId(this.findFirstQuestion(d.get(0)));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
