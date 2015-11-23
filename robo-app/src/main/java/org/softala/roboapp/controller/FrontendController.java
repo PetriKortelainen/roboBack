@@ -256,6 +256,11 @@ public class FrontendController {
 		int firstQuestion = -1;
 		
 		ArrayList<Integer> nextQuestionArray = new ArrayList<Integer>();
+		
+		/*
+		 * Loop through all the questions and their answer options
+		 * and save the nextQuestionId's to the ArrayList
+		 */
 		for (Question q : d.getQuestions()) {
 			
 			for(AnswerOption ao : q.getAnswerOptions()) {
@@ -264,16 +269,21 @@ public class FrontendController {
 			
 		}
 		
+		/*
+		 * Loop through questions again and compare question id's 
+		 * with the nextQuestionArray to find the first question
+		 */
 		for (Question q : d.getQuestions()) {
 			boolean exists = false;
 			int id = q.getQuestionId();
 			
 			for(Integer nq : nextQuestionArray) {
 				if (nq != null && nq == id) {
-					exists = true;
+					exists = true; // Id found in the array => not the first question
 				}
 			}
 			
+			// Id not found in the array, therefore is first question
 			if (!exists) {
 				firstQuestion = id;
 			}
