@@ -26,17 +26,13 @@ public class DialogConverter {
 	private Dialog dialog = new Dialog();
 	private List<Question> questions = new ArrayList<Question>();
 	
-	
 	/**
-	 * Map for being able to put right question ids to the answer's next question id.
+	 * Map for being able to put right question ids to the answer's nextQuestionId.
 	 */
 	public Map<Question, AnswerOption> nextQuestionMap = new HashMap<Question, AnswerOption>();
 	
 	/**
 	 * Converts first question separately then the sub answers and questions using convertSubNodesToHibernate().
-	 *  
-	 * @param restDialog
-	 * @return
 	 */
 	public Dialog convertDialogToHibernate(RestDialog restDialog) {
 		dialog.setName(restDialog.getDialogName());
@@ -47,7 +43,7 @@ public class DialogConverter {
 		
 		questions.add(firstQuestion);
 		
-		//Wololo wololo wololo
+		//questions and answers created in the front-end -> Wololo wololo wololo -> hibernate questions and answers
 		Set<AnswerOption> answers = convertSubNodesToHibernate(restDialog.getDialogNodes());
 		
 		//Set the firstQuestion as the previous question for the first branch of answers.
@@ -55,10 +51,10 @@ public class DialogConverter {
 			answerOption.setQuestion(firstQuestion);
 		}
 		
-		//Set the sub answers to the firstQuestion.
+		//Set the first branch of answers to the firstQuestion.
 		questions.iterator().next().setAnswerOptions(answers);
 		
-		//Convert the list of questions to Seq.
+		//Convert the list of questions to Seq<Question> (required by the Dialog class).
 		Set<Question> questionSet = new HashSet<Question>(questions);
 		//Set all of the converted questions to the dialog.
 		dialog.setQuestions(questionSet);

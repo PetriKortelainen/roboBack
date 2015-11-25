@@ -56,15 +56,15 @@ public class ManagementController {
 	@RequestMapping(value = "/post", method = RequestMethod.POST)
 	public void postJson (@RequestBody String json) {
 		GsonFactory gson = new GsonFactory();
-		// Convert the json to rest beans.
-		RestDialog drb = gson.convertJsonToObject(RestDialog.class, json);
+		// Convert the json to rest versions of the dialog, question and answer models.
+		RestDialog rd = gson.convertJsonToObject(RestDialog.class, json);
 		
 		DialogConverter converter = new DialogConverter();
 		
-		//Convert the rest beans to hibernate beans.
-		Dialog dialog = converter.convertDialogToHibernate(drb);
+		//Convert the dialog given by the front-end to hibernate dialog.
+		Dialog dialog = converter.convertDialogToHibernate(rd);
 		
-		//save the dialog (doesn't save the questions and answers automatically due to interesting solutions in the hibernate and database
+		//save the dialog (doesn't save the questions and answers automatically due to interesting solutions in the hibernate models and database
 		dialogRepository.save(dialog);
 		
 		//Save the questions, get the next question ids and set them to the correct answers.
@@ -115,7 +115,7 @@ public class ManagementController {
 	}
 	
 	/**
-	 * Used for enabling or disabling a dialog.
+	 * Used for enabling and disabling a dialog.
 	 */
 	@RequestMapping(value = "activate/{id}", method = RequestMethod.GET)
 	public void activateDialog(@PathVariable("id") Integer id) {
@@ -136,20 +136,20 @@ public class ManagementController {
 		
 		while(it.hasNext()) {
 			Dialog dialog = it.next();
-			RestManagement mrb = new RestManagement();
+			RestManagement restManagement = new RestManagement();
 			if (dialog.getDialogId() != null) {
-				mrb.setId(dialog.getDialogId());
+				restManagement.setId(dialog.getDialogId());
 			}
 			
 			if(dialog.getName() != null) {
-				mrb.setDialogName(dialog.getName());
+				restManagement.setDialogName(dialog.getName());
 			}
 			
 			if(dialog.isEnabled()) {
-				mrb.setEnabled(true);
+				restManagement.setEnabled(true);
 			}
 			
-			dialogs.add(mrb);
+			dialogs.add(restManagement);
 		}
 		
 		return dialogs;
