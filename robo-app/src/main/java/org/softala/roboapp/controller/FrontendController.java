@@ -1,13 +1,10 @@
 package org.softala.roboapp.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 import org.softala.roboapp.model.AnswerOption;
 import org.softala.roboapp.model.Dialog;
@@ -17,14 +14,11 @@ import org.softala.roboapp.model.OrderContact;
 import org.softala.roboapp.model.Question;
 import org.softala.roboapp.model.Session;
 import org.softala.roboapp.model.helpModels.AnswerHandlerBean;
-import org.softala.roboapp.model.helpModels.AnswerLevelPerAnswer;
 import org.softala.roboapp.repository.DialogRepository;
 import org.softala.roboapp.repository.GivenAnswerRepository;
 import org.softala.roboapp.repository.OrderContactRepository;
 import org.softala.roboapp.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /*
- * TODO commentoi toiminta Generoi Sesson ID, Tallenna kantaan vastauksia
  * Java class for common communication with front end.
  * FEATURES: session generation, saving user responses to database 
  * and handling the dialogues for frontend
@@ -41,14 +34,13 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Controller mappings for customer front end.
  * 
- * @author Team 1 - Petri Kortelainen
+ * @author Team 1 - Petri Kortelainen || Harri Stranden
  *
  */
 @RestController
 @RequestMapping("/Front")
 // "Front" for now but may later be changed to "/" - when so remove this
 // comment
-
 public class FrontendController {
 
 	@Autowired
@@ -59,13 +51,14 @@ public class FrontendController {
 
 	@Autowired
 	private DialogRepository dialogrepository;
-	
+
 	@Autowired
 	private OrderContactRepository oCRepository;
 
 	/**
-	 * Session generator. ID is made into hashmap from miliseconds
-	 * uses hashString method below to do so
+	 * Session generator. ID is made into hashmap from miliseconds uses
+	 * hashString method below to do so
+	 * 
 	 * @return session (bean)
 	 */
 	public Session newSession() {
@@ -102,8 +95,10 @@ public class FrontendController {
 
 	/**
 	 * On each click the front end sends post here which is saved into database
-	 * Generates new anonymous user session if one doesn't exist 
-	 * @param AHB Answer handler
+	 * Generates new anonymous user session if one doesn't exist
+	 * 
+	 * @param AHB
+	 *            Answer handler
 	 * @return map containing session id
 	 */
 	@RequestMapping(value = "/postClick", method = RequestMethod.POST)
@@ -128,7 +123,7 @@ public class FrontendController {
 		HashMap<String, String> resMap = new HashMap<String, String>();
 
 		try {
-			//attempt to read given json on value session_id
+			// attempt to read given json on value session_id
 			testId = AHB.getSession_id();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -150,37 +145,34 @@ public class FrontendController {
 			session = FrontendController.this.newSession();
 			testId = session.getSessionId();
 		}
-		
-		
-		if(AHB.getTextfieldAnswer()!=null || AHB.getTextfieldAnswer()!="" ){
-			//ANSWER is an CLOSING...when textfield has content
-			try{
+
+		if (AHB.getTextfieldAnswer() != null || AHB.getTextfieldAnswer() != "") {
+			// ANSWER is an CLOSING...when textfield has content
+			try {
 				OrderContact oc = new OrderContact();
 				Date date = new Date();
-				//CONVERT TO CLOSING BEAN
+				// CONVERT TO CLOSING BEAN
 				oc.setSession(session);
 				oc.setCreated(date);
 				oc.setEmail(AHB.getTextfieldAnswer());
 
-				
-				//ATTEMPT TO SAVE
+				// ATTEMPT TO SAVE
 				oCRepository.save(oc);
-				
-			}catch(Exception e){
+
+			} catch (Exception e) {
 				e.printStackTrace();
 				resMap.put("WARNING:", "Closing Error");
-				
+
 			}
 
-			
-			//SAVE CLOSING
-		}else{
-			//ANSWER is a CLICK
-			
+			// SAVE CLOSING
+		} else {
+			// ANSWER is a CLICK
+
 			GivenAnswer ga = new GivenAnswer();
 			AnswerOption ao = new AnswerOption();
 			GivenAnswerId gai = new GivenAnswerId();
-	
+
 			// GivenAnswerId content
 			gai.setSessionId(testId);
 			String aoID = AHB.getAnswer_option_id();
@@ -192,27 +184,29 @@ public class FrontendController {
 				e.printStackTrace();
 			}
 			gai.setAnswerOptionId(foo);
-	
+
 			// AnswerOption content
 			ao.setAnswerOptionId(foo);
-	
+
 			// GivenAnswer content
 			ga.setId(gai);
 			ga.setCreated(new Date());
 			ga.setSession(session);
 			ga.setAnswerOption(ao);
-	
+
 			GivAnswRepository.save(ga);
 		}
-		
+
 		resMap.put("session_id", testId);
 		return resMap;
 	}
 
 	/**
 	 * Give tree to backend
+	 * 
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	@RequestMapping("/getTree")
 	public Iterable getTree() {
 
@@ -221,38 +215,34 @@ public class FrontendController {
 
 		ArrayList<Dialog> d = new ArrayList<Dialog>();
 		ArrayList<Integer> a = null;
-		
-		int Random = (int)(Math.random()*100);
+
+		int Random = (int) (Math.random() * 100);
 		/*
-		 * code to get all trees at the same time
-		try {
-			a = dialogrepository.findEnabled();
-			for (int i = 0; i < a.size(); i++) {
-				d.add(dialogrepository.findOne(a.get(i)));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*/
+		 * code to get all trees at the same time try { a =
+		 * dialogrepository.findEnabled(); for (int i = 0; i < a.size(); i++) {
+		 * d.add(dialogrepository.findOne(a.get(i))); } } catch (Exception e) {
+		 * e.printStackTrace(); }
+		 */
 		// Code to pick randomly from multiple trees
 		try {
 			a = dialogrepository.findEnabled();
-			Random = (int)(Math.random()*a.size());
+			Random = (int) (Math.random() * a.size());
 			d.add(dialogrepository.findOne(a.get(Random)));
-			
+
 			d.get(0).setFirstQuestionId(this.findFirstQuestion(d.get(0)));
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return d;
 	}
 
 	/**
 	 * Generates hashed string to be used as user session ids
 	 * 
-	 * @param s string to be hashed
+	 * @param s
+	 *            string to be hashed
 	 * @return hashed string
 	 * @throws NoSuchAlgorithmException
 	 */
@@ -277,51 +267,53 @@ public class FrontendController {
 		}
 		return sb.toString();
 	}
-	
+
 	/**
-	 * Loops through questions and answer options to find the first question
-	 * of a dialog
+	 * Loops through questions and answer options to find the first question of
+	 * a dialog
+	 * 
 	 * @param d
 	 * @return
 	 */
 	private int findFirstQuestion(Dialog d) {
 
 		int firstQuestion = -1;
-		
+
 		ArrayList<Integer> nextQuestionArray = new ArrayList<Integer>();
-		
+
 		/*
-		 * Loop through all the questions and their answer options
-		 * and save the nextQuestionId's to the ArrayList
+		 * Loop through all the questions and their answer options and save the
+		 * nextQuestionId's to the ArrayList
 		 */
 		for (Question q : d.getQuestions()) {
-			
-			for(AnswerOption ao : q.getAnswerOptions()) {
+
+			for (AnswerOption ao : q.getAnswerOptions()) {
 				nextQuestionArray.add(ao.getNextQuestionId());
 			}
-			
+
 		}
-		
+
 		/*
-		 * Loop through questions again and compare question id's 
-		 * with the nextQuestionArray to find the first question
+		 * Loop through questions again and compare question id's with the
+		 * nextQuestionArray to find the first question
 		 */
 		for (Question q : d.getQuestions()) {
 			boolean exists = false;
 			int id = q.getQuestionId();
-			
-			for(Integer nq : nextQuestionArray) {
+
+			for (Integer nq : nextQuestionArray) {
 				if (nq != null && nq == id) {
-					exists = true; // Id found in the array => not the first question
+					exists = true; // Id found in the array => not the first
+									// question
 				}
 			}
-			
+
 			// Id not found in the array, therefore is first question
 			if (!exists) {
 				firstQuestion = id;
 			}
-		}	
-		
+		}
+
 		return firstQuestion;
 	}
 
