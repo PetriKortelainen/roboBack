@@ -96,4 +96,4 @@ ALTER TABLE order_contact
 ADD CONSTRAINT fk_order_contact_session_id
 FOREIGN KEY (session_id) REFERENCES session (session_id)
 ON UPDATE CASCADE
-ON DELETE NO ACTION,
+ON DELETE NO ACTION;
