@@ -36,6 +36,11 @@ public class GivenAnswerController {
 		return givenAnswerRepository.findAll();
 	}
 	
+	@RequestMapping("/repository/allWithout")
+	public ArrayList<GivenAnswer> all(){
+		return givenAnswerRepository.getGivenAnswers();
+	}
+	
 //	@RequestMapping("/repository/countSessions")
 //	public int allSessionsCount(){
 //		return givenAnswerRepository.countAllSessionID();

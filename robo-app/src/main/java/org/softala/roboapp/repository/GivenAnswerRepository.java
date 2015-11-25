@@ -25,5 +25,8 @@ public interface GivenAnswerRepository extends CrudRepository<GivenAnswer, Long>
 	
 	@Query(value = "select q.text as question_text, ao.text as answer_option_text, count(ga.created) as answers from answer_option ao join given_answer ga on ga.answer_option_id = ao.answer_option_id join question q on ao.question_id = q.question_id group by ao.answer_option_id;", nativeQuery = true )
 	public ArrayList<AnswerLevelPerAnswer> getAnswerPerQuestion();
+	
+	@Query(value="select g.session_id, g.answer_option_id, g.created from given_answer g order by g.session_id, g.created;", nativeQuery = true)
+	public ArrayList<GivenAnswer> getGivenAnswers();
 
 }

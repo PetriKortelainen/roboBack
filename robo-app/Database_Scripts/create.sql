@@ -11,8 +11,8 @@ SET foreign_key_checks = 1;
 
 CREATE TABLE dialog(
   dialog_id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(300) NOT NULL,
-  enabled BOOLEAN NOT NULL DEFAULT '0',
+  name LONGTEXT NOT NULL,
+  enabled TINYINT(1) NOT NULL,
   created DATETIME,
   PRIMARY KEY (dialog_id)
 ) ENGINE=InnoDB;
@@ -20,7 +20,7 @@ CREATE TABLE dialog(
 CREATE TABLE question(
   question_id INT NOT NULL AUTO_INCREMENT,
   dialog_id INT NOT NULL,
-  text VARCHAR(1000) NOT NULL,
+  text LONGTEXT NOT NULL,
   answer_type VARCHAR(16) NOT NULL,
   PRIMARY KEY (question_id)
 ) ENGINE=InnoDB;
@@ -28,7 +28,7 @@ CREATE TABLE question(
 CREATE TABLE answer_option(
   answer_option_id INT NOT NULL AUTO_INCREMENT,
   question_id INT NOT NULL,
-  text VARCHAR(1000),
+  text LONGTEXT,
   order_index INT NOT NULL,
   next_question_id INT,
   closing_id INT,
@@ -37,8 +37,8 @@ CREATE TABLE answer_option(
 
 CREATE TABLE closing(
   closing_id INT NOT NULL AUTO_INCREMENT,
-  text VARCHAR(2000) NOT NULL,
-  product_url VARCHAR(2083),
+  text LONGTEXT NOT NULL,
+  product_url LONGTEXT,
   to_email VARCHAR(254),
   PRIMARY KEY (closing_id)
 ) ENGINE=InnoDB;
@@ -54,6 +54,14 @@ CREATE TABLE session(
   session_id VARCHAR(128) NOT NULL,
   created DATETIME,
   PRIMARY KEY (session_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE order_contact(
+  order_id INT NOT NULL AUTO_INCREMENT,
+  session_id VARCHAR(128) NOT NULL,
+  email VARCHAR(254) NOT NULL,
+  created DATETIME,
+  PRIMARY KEY (order_id)
 ) ENGINE=InnoDB;
 
 ALTER TABLE question
@@ -81,5 +89,11 @@ ON DELETE NO ACTION,
 
 ADD CONSTRAINT fk_given_answer_answer_option_id
 FOREIGN KEY (answer_option_id) REFERENCES answer_option (answer_option_id)
+ON UPDATE CASCADE
+ON DELETE NO ACTION;
+
+ALTER TABLE order_contact
+ADD CONSTRAINT fk_order_contact_session_id
+FOREIGN KEY (session_id) REFERENCES session (session_id)
 ON UPDATE CASCADE
 ON DELETE NO ACTION;
