@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.softala.roboapp.model.AnswerOption;
 import org.softala.roboapp.model.Dialog;
@@ -16,6 +17,7 @@ import org.softala.roboapp.model.helpModels.DialogRestBean;
 import org.softala.roboapp.model.helpModels.ManagementRestBean;
 import org.softala.roboapp.repository.AnswerOptionRepository;
 import org.softala.roboapp.repository.DialogRepository;
+import org.softala.roboapp.repository.GivenAnswerRepository;
 import org.softala.roboapp.repository.QuestionRepository;
 import org.softala.roboapp.util.DialogConverter;
 import org.softala.roboapp.util.GsonFactory;
@@ -43,6 +45,9 @@ public class ManagementController {
 	@Autowired
 	private AnswerOptionRepository answerOptionRepository;
 	
+	@Autowired
+	private GivenAnswerRepository givenAnswerRepository;
+	
 	/**
 	 * Saves single dialogs given by the front-end.
 	 * 
@@ -59,7 +64,9 @@ public class ManagementController {
 		//Convert the rest beans to hibernate beans.
 		Dialog dialog = converter.convertDialogToHibernate(drb);
 		
+		//save the dialog (doesn't save the questions and answers automatically due to interesting solutions in the hibernate and database
 		dialogRepository.save(dialog);
+		
 		//Save questions, get the next question ids and set them to the correct answers.
 		for(Question currentQuestion : dialog.getQuestions()) {
 			int nextQuestionId = questionRepository.save(currentQuestion).getQuestionId();
@@ -85,6 +92,18 @@ public class ManagementController {
 	public void deleteDialog(@PathVariable("id") Integer id) {
 		Dialog dialog = dialogRepository.findOne(id);
 		if(!dialog.isEnabled()) {
+			Set<Question> questions = dialog.getQuestions();
+			for(Question q : questions) {
+				Set<AnswerOption> ansOptions = q.getAnswerOptions();
+				
+				for(AnswerOption ao : ansOptions) {
+					givenAnswerRepository.delete(ao.getGivenAnswers());
+				}
+				
+				answerOptionRepository.delete(ansOptions);
+			}
+			questionRepository.delete(questions);
+			
 			dialogRepository.delete(dialog);
 		}
 	}
