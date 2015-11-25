@@ -16,12 +16,18 @@ import org.softala.roboapp.model.helpModels.DialogRestBean;
 /**
  *@author team3
  * Converts the dialog given by the front-end to matching hibernate beans.
- *
+ * 
+ * Friendly advice for the next developers: Fixing the hibernate and database would propably 
+ * make further development much easier and render this converter useless.
  */
 public class DialogConverter {
 	private Dialog dialog = new Dialog();
 	private List<Question> questions = new ArrayList<Question>();
 	
+	
+	/**
+	 * Map for being able to put right question ids to the answer's next question id.
+	 */
 	public Map<Question, AnswerOption> nextQuestionMap = new HashMap<Question, AnswerOption>();
 	
 	/**
@@ -77,9 +83,10 @@ public class DialogConverter {
 					Question hibernateQuestion = new Question();
 					hibernateQuestion.setText(node.getQuestionText());
 					
+					//Convert the inner nodes until there isn't left any.
 					Set<AnswerOption> subAnswers = convertSubNodesToHibernate(node.getNodes());
 
-					//set the questions of subAnswers to the current question
+					//Set the questions of subAnswers to the current question.
 					for(AnswerOption subAnswer: subAnswers) {
 						//set the previous question for sub answers to the current question
 						subAnswer.setQuestion(hibernateQuestion);
@@ -92,7 +99,7 @@ public class DialogConverter {
 					hibernateQuestion.setAnswerType("choice");
 					hibernateQuestion.setDialog(dialog);
 					
-					//add the converted question with its answer options to a Set<Question>
+					//Add the converted question with its answer options to a Set<Question>.
 					questions.add(hibernateQuestion);
 				}	
 				hibernateAnswers.add(hibernateAnswer);
