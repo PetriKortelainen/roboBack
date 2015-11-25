@@ -13,8 +13,8 @@ import org.softala.roboapp.model.AnswerOption;
 import org.softala.roboapp.model.Dialog;
 import org.softala.roboapp.model.Hello;
 import org.softala.roboapp.model.Question;
-import org.softala.roboapp.model.helpModels.DialogRestBean;
-import org.softala.roboapp.model.helpModels.ManagementRestBean;
+import org.softala.roboapp.model.rest.RestManagement;
+import org.softala.roboapp.model.rest.RestDialog;
 import org.softala.roboapp.repository.AnswerOptionRepository;
 import org.softala.roboapp.repository.DialogRepository;
 import org.softala.roboapp.repository.GivenAnswerRepository;
@@ -57,7 +57,7 @@ public class ManagementController {
 	public void postJson (@RequestBody String json) {
 		GsonFactory gson = new GsonFactory();
 		// Convert the json to rest beans.
-		DialogRestBean drb = gson.convertJsonToObject(DialogRestBean.class, json);
+		RestDialog drb = gson.convertJsonToObject(RestDialog.class, json);
 		
 		DialogConverter converter = new DialogConverter();
 		
@@ -67,7 +67,7 @@ public class ManagementController {
 		//save the dialog (doesn't save the questions and answers automatically due to interesting solutions in the hibernate and database
 		dialogRepository.save(dialog);
 		
-		//Save questions, get the next question ids and set them to the correct answers.
+		//Save the questions, get the next question ids and set them to the correct answers.
 		for(Question currentQuestion : dialog.getQuestions()) {
 			int nextQuestionId = questionRepository.save(currentQuestion).getQuestionId();
 			
@@ -77,17 +77,23 @@ public class ManagementController {
 			}
 		}
 		
-		//Save answers.
+		//Save the answers.
 		for(Question currentQuestion : dialog.getQuestions()) {
 			answerOptionRepository.save(currentQuestion.getAnswerOptions());
 		}
 	}
 	
+	/**
+	 * TODO: dialog editing.
+	 */
 	@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
 	public Dialog editDialog(@PathVariable("id") Integer id) {
 		return dialogRepository.findOne(id);
 	}
 	
+	/**
+	 * Deletes dialog by the given dialog id.
+	 */
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
 	public void deleteDialog(@PathVariable("id") Integer id) {
 		Dialog dialog = dialogRepository.findOne(id);
@@ -108,6 +114,9 @@ public class ManagementController {
 		}
 	}
 	
+	/**
+	 * Used for enabling or disabling a dialog.
+	 */
 	@RequestMapping(value = "activate/{id}", method = RequestMethod.GET)
 	public void activateDialog(@PathVariable("id") Integer id) {
 		Dialog dialog = dialogRepository.findOne(id);
@@ -116,14 +125,18 @@ public class ManagementController {
 		dialogRepository.save(dialog);
 	}
 	
+	/**
+	 * Retrieves a list of hibernate dialogs 
+	 * and returns rest beans with unnecessary fields removed.
+	 */
 	@RequestMapping(value = "get-dialogs", method = RequestMethod.GET)
-	public List<ManagementRestBean> getDialogs() {
-		List<ManagementRestBean> dialogs = new ArrayList<ManagementRestBean>();
+	public List<RestManagement> getDialogs() {
+		List<RestManagement> dialogs = new ArrayList<RestManagement>();
 		Iterator<Dialog> it = dialogRepository.findAll().iterator();
 		
 		while(it.hasNext()) {
 			Dialog dialog = it.next();
-			ManagementRestBean mrb = new ManagementRestBean();
+			RestManagement mrb = new RestManagement();
 			if (dialog.getDialogId() != null) {
 				mrb.setId(dialog.getDialogId());
 			}

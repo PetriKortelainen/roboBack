@@ -1,24 +1,24 @@
-package org.softala.roboapp.model.helpModels;
+package org.softala.roboapp.model.rest;
 
 
 /**
  * @author team3
- * Bean for retrieving a list of dialogs without unnecessary fields to the management frontend.
+ * Model for retrieving a list of dialogs without unnecessary fields to the management front-end.
  *
  */
-public class ManagementRestBean {
+public class RestManagement {
 	private int id;
 	private String dialogName;
 	private boolean enabled;
 	
-	public ManagementRestBean(int id, String dialogName, boolean enabled) {
+	public RestManagement(int id, String dialogName, boolean enabled) {
 		super();
 		this.id = id;
 		this.dialogName = dialogName;
 		this.enabled = enabled;
 	}
 
-	public ManagementRestBean() {
+	public RestManagement() {
 		super();
 	}
 

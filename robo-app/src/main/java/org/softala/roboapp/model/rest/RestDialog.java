@@ -1,4 +1,4 @@
-package org.softala.roboapp.model.helpModels;
+package org.softala.roboapp.model.rest;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -7,9 +7,10 @@ import java.util.List;
 
 /**
  * @author team3
+ * 
  * Used for matching backend's dialog tree with the one in the frontend.
  */
-public class DialogRestBean implements Serializable{
+public class RestDialog implements Serializable{
 	/**
 	 * 
 	 */
@@ -25,10 +26,10 @@ public class DialogRestBean implements Serializable{
 		this.questionText = questionText;
 	}
 
-	private List<DialogNodeRestBean> nodes;
+	private List<RestDialogNode> nodes;
 	
-	public DialogRestBean(String dialogName, Date dialogCreated,
-			List<DialogNodeRestBean> nodes) {
+	public RestDialog(String dialogName, Date dialogCreated,
+			List<RestDialogNode> nodes) {
 		super();
 		this.dialogName = dialogName;
 		this.dialogCreated = dialogCreated;
@@ -47,10 +48,10 @@ public class DialogRestBean implements Serializable{
 	public void setDialogCreated(Date dialogCreated) {
 		this.dialogCreated = dialogCreated;
 	}
-	public List<DialogNodeRestBean> getDialogNodes() {
+	public List<RestDialogNode> getDialogNodes() {
 		return nodes;
 	}
-	public void setDialogNodes(List<DialogNodeRestBean> dialogFirstQuestion) {
+	public void setDialogNodes(List<RestDialogNode> dialogFirstQuestion) {
 		this.nodes = dialogFirstQuestion;
 	}
 

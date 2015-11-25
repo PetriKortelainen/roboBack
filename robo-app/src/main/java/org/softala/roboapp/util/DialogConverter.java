@@ -1,6 +1,7 @@
 package org.softala.roboapp.util;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,12 +11,13 @@ import java.util.Set;
 import org.softala.roboapp.model.AnswerOption;
 import org.softala.roboapp.model.Dialog;
 import org.softala.roboapp.model.Question;
-import org.softala.roboapp.model.helpModels.DialogNodeRestBean;
-import org.softala.roboapp.model.helpModels.DialogRestBean;
+import org.softala.roboapp.model.rest.RestDialogNode;
+import org.softala.roboapp.model.rest.RestDialog;
 
 /**
  *@author team3
- * Converts the dialog given by the front-end to matching hibernate beans.
+ *
+ * Converts the dialog given by the front-end to matching hibernate models.
  * 
  * Friendly advice for the next developers: Fixing the hibernate and database would propably 
  * make further development much easier and render this converter useless.
@@ -33,21 +35,22 @@ public class DialogConverter {
 	/**
 	 * Converts first question separately then the sub answers and questions using convertSubNodesToHibernate().
 	 *  
-	 * @param dialogRestBean
+	 * @param restDialog
 	 * @return
 	 */
-	public Dialog convertDialogToHibernate(DialogRestBean dialogRestBean) {
-		dialog.setName(dialogRestBean.getDialogName());
-		dialog.setCreated(dialogRestBean.getDialogCreated());
+	public Dialog convertDialogToHibernate(RestDialog restDialog) {
+		dialog.setName(restDialog.getDialogName());
+		Date now = new Date(System.currentTimeMillis());
+		dialog.setCreated(now);
 		
-		Question firstQuestion = new Question(dialog, dialogRestBean.getQuestionText(), "");
+		Question firstQuestion = new Question(dialog, restDialog.getQuestionText(), "");
 		
 		questions.add(firstQuestion);
 		
 		//Wololo wololo wololo
-		Set<AnswerOption> answers = convertSubNodesToHibernate(dialogRestBean.getDialogNodes());
+		Set<AnswerOption> answers = convertSubNodesToHibernate(restDialog.getDialogNodes());
 		
-		//Set the firstQuestion as the previous question for the first sub answers.
+		//Set the firstQuestion as the previous question for the first branch of answers.
 		for(AnswerOption answerOption : answers) {
 			answerOption.setQuestion(firstQuestion);
 		}
@@ -64,17 +67,17 @@ public class DialogConverter {
 	}
 	
 	/**
-	 * Traverses dialog tree and converts the sub nodes to matching hibernate beans
+	 * Traverses dialog tree and converts the sub nodes to matching hibernate models
 	 * 
 	 * @param nodes 	list of rest bean nodes
 	 * @return			list of hibernate AnswerOptions
 	 */
-	private Set<AnswerOption> convertSubNodesToHibernate(List<DialogNodeRestBean> nodes) {	
+	private Set<AnswerOption> convertSubNodesToHibernate(List<RestDialogNode> nodes) {	
 		Set<AnswerOption> hibernateAnswers = new HashSet<AnswerOption>();
 		
-		//Loop through rest bean nodes given in the arguments.
-		for(DialogNodeRestBean node : nodes) {
-			//Convert only if the current node's answer text is not empty.
+		//Loop through nodes given in the parameters.
+		for(RestDialogNode node : nodes) {
+			//Start converting to hibernate only if the current node's answer text is not empty.
 			if(!node.getAnswerText().isEmpty()) {
 				AnswerOption hibernateAnswer = new AnswerOption();
 				hibernateAnswer.setText(node.getAnswerText());
@@ -83,10 +86,10 @@ public class DialogConverter {
 					Question hibernateQuestion = new Question();
 					hibernateQuestion.setText(node.getQuestionText());
 					
-					//Convert the inner nodes until there isn't left any.
+					//Continue traversing the tree and convert the inner nodes until all of the branches have been converted.
 					Set<AnswerOption> subAnswers = convertSubNodesToHibernate(node.getNodes());
 
-					//Set the questions of subAnswers to the current question.
+					//Assign the current question to the sub answers.
 					for(AnswerOption subAnswer: subAnswers) {
 						//set the previous question for sub answers to the current question
 						subAnswer.setQuestion(hibernateQuestion);

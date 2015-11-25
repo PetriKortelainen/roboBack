@@ -1,22 +1,26 @@
-package org.softala.roboapp.model.helpModels;
+package org.softala.roboapp.model.rest;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class DialogNodeRestBean implements Serializable{
-	/**
-	 * 
-	 */
+/**
+ * @author team3
+ * 
+ * Model for the front-end's questions and answers.
+ *
+ */
+public class RestDialogNode implements Serializable{
+	
 	private static final long serialVersionUID = -2574003604889633017L;
 	private String answerText;
 	private int answerOrderIndex;
 	String questionText;
 	String answerType;
-	List<DialogNodeRestBean> nodes;
+	List<RestDialogNode> nodes;
 	
-	public DialogNodeRestBean(String answerText, int answerOrderIndex,
+	public RestDialogNode(String answerText, int answerOrderIndex,
 			String questionText, String answerType,
-			List<DialogNodeRestBean> nodes) {
+			List<RestDialogNode> nodes) {
 		super();
 		this.answerText = answerText;
 		this.answerOrderIndex = answerOrderIndex;
@@ -49,10 +53,10 @@ public class DialogNodeRestBean implements Serializable{
 	public void setAnswerType(String answerType) {
 		this.answerType = answerType;
 	}
-	public List<DialogNodeRestBean> getNodes() {
+	public List<RestDialogNode> getNodes() {
 		return nodes;
 	}
-	public void setNodes(List<DialogNodeRestBean> nodes) {
+	public void setNodes(List<RestDialogNode> nodes) {
 		this.nodes = nodes;
 	}
 
