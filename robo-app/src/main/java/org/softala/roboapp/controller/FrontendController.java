@@ -13,12 +13,14 @@ import org.softala.roboapp.model.AnswerOption;
 import org.softala.roboapp.model.Dialog;
 import org.softala.roboapp.model.GivenAnswer;
 import org.softala.roboapp.model.GivenAnswerId;
+import org.softala.roboapp.model.OrderContact;
 import org.softala.roboapp.model.Question;
 import org.softala.roboapp.model.Session;
 import org.softala.roboapp.model.helpModels.AnswerHandlerBean;
 import org.softala.roboapp.model.helpModels.AnswerLevelPerAnswer;
 import org.softala.roboapp.repository.DialogRepository;
 import org.softala.roboapp.repository.GivenAnswerRepository;
+import org.softala.roboapp.repository.OrderContactRepository;
 import org.softala.roboapp.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,6 +59,9 @@ public class FrontendController {
 
 	@Autowired
 	private DialogRepository dialogrepository;
+	
+	@Autowired
+	private OrderContactRepository oCRepository;
 
 	/**
 	 * Session generator. ID is made into hashmap from miliseconds
@@ -127,7 +132,7 @@ public class FrontendController {
 			testId = AHB.getSession_id();
 		} catch (Exception e) {
 			e.printStackTrace();
-			resMap.put("WARNING:", "Unknown error");
+			resMap.put("WARNING:", "DIRTY READ");
 			return resMap;
 		}
 
@@ -145,33 +150,61 @@ public class FrontendController {
 			session = FrontendController.this.newSession();
 			testId = session.getSessionId();
 		}
+		
+		
+		if(AHB.getTextfieldAnswer()!=null || AHB.getTextfieldAnswer()!="" ){
+			//ANSWER is an CLOSING...when textfield has content
+			try{
+				OrderContact oc = new OrderContact();
+				Date date = new Date();
+				//CONVERT TO CLOSING BEAN
+				oc.setSession(session);
+				oc.setCreated(date);
+				oc.setEmail(AHB.getTextfieldAnswer());
 
-		GivenAnswer ga = new GivenAnswer();
-		AnswerOption ao = new AnswerOption();
-		GivenAnswerId gai = new GivenAnswerId();
+				
+				//ATTEMPT TO SAVE
+				oCRepository.save(oc);
+				
+			}catch(Exception e){
+				e.printStackTrace();
+				resMap.put("WARNING:", "Closing Error");
+				
+			}
 
-		// GivenAnswerId content
-		gai.setSessionId(testId);
-		String aoID = AHB.getAnswer_option_id();
-		int foo = 0;
-		try {
-			foo = Integer.parseInt(aoID);
-		} catch (NumberFormatException e) {
-			System.out.println("parse to int kusi, aoID:" + aoID);
-			e.printStackTrace();
+			
+			//SAVE CLOSING
+		}else{
+			//ANSWER is a CLICK
+			
+			GivenAnswer ga = new GivenAnswer();
+			AnswerOption ao = new AnswerOption();
+			GivenAnswerId gai = new GivenAnswerId();
+	
+			// GivenAnswerId content
+			gai.setSessionId(testId);
+			String aoID = AHB.getAnswer_option_id();
+			int foo = 0;
+			try {
+				foo = Integer.parseInt(aoID);
+			} catch (NumberFormatException e) {
+				System.out.println("parse to int kusi, aoID:" + aoID);
+				e.printStackTrace();
+			}
+			gai.setAnswerOptionId(foo);
+	
+			// AnswerOption content
+			ao.setAnswerOptionId(foo);
+	
+			// GivenAnswer content
+			ga.setId(gai);
+			ga.setCreated(new Date());
+			ga.setSession(session);
+			ga.setAnswerOption(ao);
+	
+			GivAnswRepository.save(ga);
 		}
-		gai.setAnswerOptionId(foo);
-
-		// AnswerOption content
-		ao.setAnswerOptionId(foo);
-
-		// GivenAnswer content
-		ga.setId(gai);
-		ga.setCreated(new Date());
-		ga.setSession(session);
-		ga.setAnswerOption(ao);
-
-		GivAnswRepository.save(ga);
+		
 		resMap.put("session_id", testId);
 		return resMap;
 	}
