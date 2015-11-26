@@ -48,7 +48,7 @@ public class DialogController {
 	
 	@RequestMapping("/repository/sendMail")
 	public void sendMail(){
-		   SimpleMailMessage mailMessage=new SimpleMailMessage();
+		    SimpleMailMessage mailMessage=new SimpleMailMessage();
 	        mailMessage.setTo("tuomas.torma@myy.haaga-helia.fi");
 	        mailMessage.setSubject("testing");
 	        mailMessage.setText("testing sendig");
