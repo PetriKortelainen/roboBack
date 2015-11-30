@@ -15,8 +15,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
  *	Configuration class for sending mails
  *	Accessed by other classes by JavaMailSender
  *
- *	NOT DONE YET!!! WIP!!!
- *
  */
 @Configuration
 public class MailConfig {

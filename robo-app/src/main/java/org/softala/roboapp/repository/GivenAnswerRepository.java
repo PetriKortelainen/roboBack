@@ -28,5 +28,10 @@ public interface GivenAnswerRepository extends CrudRepository<GivenAnswer, Long>
 	
 	@Query(value="select g.session_id, g.answer_option_id, g.created from given_answer g order by g.session_id, g.created;", nativeQuery = true)
 	public ArrayList<GivenAnswer> getGivenAnswers();
+	
+	@Query(value="select g.session_id, g.answer_option_id, g.created from given_answer g JOIN answer_option a ON g.answer_option_id = a.answer_option_id  JOIN question gu ON a.question_id = gu.question_id JOIN dialog d ON d.dialog_id = gu.dialog_id  WHERE d.dialog_id = ? order by g.session_id, g.created;", nativeQuery = true)
+	public ArrayList<GivenAnswer> getGivenAnsswerByDialogId(Integer id);
+	
+	
 
 }

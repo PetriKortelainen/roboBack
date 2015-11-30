@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import javax.persistence.Query;
 
+import org.softala.roboapp.model.Dialog;
 import org.softala.roboapp.model.GivenAnswer;
 import org.softala.roboapp.model.helpModels.AnswerLevelPerAnswer;
 import org.softala.roboapp.repository.GivenAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,5 +54,15 @@ public class GivenAnswerController {
 		return givenAnswerRepository.getAnswerPerQuestion();
 	}
 	
+	
+	/**
+	 * Fetches a dialog using the findOne method of Spring's CrudRepository
+	 * @param id
+	 * @return the dialog with the specified id
+	 */
+	@RequestMapping("/repository/getGivenAnswerByDialogId/{id}")
+	public ArrayList<GivenAnswer> getDialogWithId(@PathVariable("id") Integer id){
+		return givenAnswerRepository.getGivenAnsswerByDialogId(id);
+	}
 
 }
