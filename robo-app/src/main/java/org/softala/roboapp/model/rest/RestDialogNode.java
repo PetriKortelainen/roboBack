@@ -29,6 +29,14 @@ public class RestDialogNode implements Serializable{
 		this.nodes = nodes;
 	}
 	
+	
+	
+	public RestDialogNode() {
+		super();
+	}
+
+
+
 	public String getAnswerText() {
 		return answerText;
 	}
