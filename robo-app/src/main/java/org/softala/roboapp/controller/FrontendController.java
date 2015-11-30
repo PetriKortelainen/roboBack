@@ -163,7 +163,7 @@ public class FrontendController {
 	} // end of saveClick
 
 	/**
-	 * Give tree to backend
+	 * Give tree to frontend
 	 * 
 	 * @return
 	 */
@@ -194,6 +194,9 @@ public class FrontendController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		if(d.isEmpty()){
+			//TODO if no tree is fetched something needs to happen
 		}
 
 		return d;
