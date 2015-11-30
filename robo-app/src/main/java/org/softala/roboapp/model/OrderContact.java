@@ -28,8 +28,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Table(name = "order_contact")
 public class OrderContact implements java.io.Serializable {
 
-	/**
-	 * 
+	/*
+	 * New table was made handle closing dialogs Closing bean is no longer in
+	 * use. Due to us being short time we chose to make new table to reduce the
+	 * chance of unexpected problems. Closing saves unverified data into
+	 * database and sends it forward into email. Only validation is form
+	 * frontend that checks email format and hibernate that checks that values
+	 * compliment SQL configurations.
+	 * -Kortelainen TEAM 1
 	 */
 	private static final long serialVersionUID = -1442354512361067444L;
 	private Integer orderId;
