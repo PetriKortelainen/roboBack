@@ -54,6 +54,16 @@ public class GivenAnswerController {
 		return givenAnswerRepository.getAnswerPerQuestion();
 	}
 	
+	/**
+	 * Fetches a dialog using the findOne method of Spring's CrudRepository
+	 * @param id
+	 * @return the dialog with the specified id
+	 */
+	@RequestMapping("/repository/getAnswerPerQuestionPerDialogID/{id}")
+	public ArrayList<AnswerLevelPerAnswer> getAnswerPerQuestionPerDialogID(@PathVariable("id") Integer id){
+		return givenAnswerRepository.getAnswerPerQuestionPerDialog(id);
+	}
+	
 	
 	/**
 	 * Fetches a dialog using the findOne method of Spring's CrudRepository
