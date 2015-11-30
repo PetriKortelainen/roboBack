@@ -216,7 +216,7 @@ public class FrontendController {
 		ArrayList<Dialog> d = new ArrayList<Dialog>();
 		ArrayList<Integer> a = null;
 
-		int Random = (int) (Math.random() * 100);
+		int random = (int) (Math.random() * 100);
 		/*
 		 * code to get all trees at the same time try { a =
 		 * dialogrepository.findEnabled(); for (int i = 0; i < a.size(); i++) {
@@ -226,8 +226,8 @@ public class FrontendController {
 		// Code to pick randomly from multiple trees
 		try {
 			a = dialogrepository.findEnabled();
-			Random = (int) (Math.random() * a.size());
-			d.add(dialogrepository.findOne(a.get(Random)));
+			random = (int) (Math.random() * a.size());
+			d.add(dialogrepository.findOne(a.get(random)));
 
 			d.get(0).setFirstQuestionId(this.findFirstQuestion(d.get(0)));
 
@@ -312,8 +312,11 @@ public class FrontendController {
 			if (!exists) {
 				firstQuestion = id;
 			}
+			
 		}
 
+		
+		//	ALT:		for (Question q : d.getQuestions()) {for(AnswerOption ao : q.getAnswerOptions()) {nextQuestionArray.add(ao.getNextQuestionId());}}for (Question q : d.getQuestions()) {if(!nextQuestionArray.contains(q.getQuestionId())){firstQuestion=q.getQuestionId();}}
 		return firstQuestion;
 	}
 
