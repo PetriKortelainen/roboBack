@@ -36,6 +36,12 @@ public class RestDialog implements Serializable{
 		this.nodes = nodes;
 	}
 	
+	
+	
+	public RestDialog() {
+		super();
+	}
+
 	public String getDialogName() {
 		return dialogName;
 	}
