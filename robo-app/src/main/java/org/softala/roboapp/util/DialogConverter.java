@@ -40,6 +40,7 @@ public class DialogConverter {
 		dialog.setCreated(now);
 		
 		Question firstQuestion = new Question(dialog, restDialog.getQuestionText(), "");
+		firstQuestion.setAnswerType("choice");
 		
 		questions.add(firstQuestion);
 		
