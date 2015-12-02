@@ -29,5 +29,4 @@ public class IteratorProcesser<T> {
 		
 		return list;
 	}
-
 }

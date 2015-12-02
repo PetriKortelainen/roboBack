@@ -10,6 +10,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 /**
  * 
  * @author Tuomas Törmä
+ * @since	2.12.2015
  *	
  *<p>
  *	Datasource is also set to use C3P0 as pooling parts. With this in use, application
@@ -18,7 +19,6 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
  *	that there are spare connection in when someone else tries to make connection
  *</p>
  */
-
 @Configuration
 public class DatasourcePool {
 
@@ -82,5 +82,4 @@ public class DatasourcePool {
 	        dataSource.setUnreturnedConnectionTimeout(unreturnedConnectionTimeout);
 	        return dataSource;
 	    }
-	
 }

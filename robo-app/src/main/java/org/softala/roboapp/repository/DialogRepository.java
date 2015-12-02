@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
  * @author Tuomas Törmä, Kortelainen Petri
  * @Since 14.10.2015
  * 
+ * Implementation of Spring's CrudRepository for Dialog
  */
-
 @Repository
 public interface DialogRepository extends CrudRepository<Dialog, Integer> {
 

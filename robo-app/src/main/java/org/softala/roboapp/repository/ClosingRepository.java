@@ -8,7 +8,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * @author a1300786
+ * @author 	Tuomas Törmä, Petri Kortelainen
+ * @since	2.12.2015
+ *
+ *	Implementation of Spring's CrudRepository for Closing
  *
  */
 @Repository

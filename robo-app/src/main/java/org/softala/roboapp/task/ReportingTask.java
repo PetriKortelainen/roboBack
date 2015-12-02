@@ -16,10 +16,13 @@ import org.springframework.stereotype.Component;
 
 /**
  * 
- * @author Tuomas Törmä
+ * @author 	Tuomas Törmä
+ * @since	2.12.2015
  *
- *	Reporting task are automated task based on Cron time
- *
+ *	<p>
+ *	Reporting task are automated task based on Cron time. Reporting task
+ *	is automatically added to Spring Boot application. 
+ *	</p>
  */
 @Component
 public class ReportingTask {
@@ -37,18 +40,30 @@ public class ReportingTask {
     private String sendTo;
 
 	/**
-	 * Cron presenttion
-	 * 
-	 * second, minute, hour, day of month, month, day(s) of week
-	 * 
+	 * <p>
+	 * Cron presenttion. * means any time 
+	 * <ul>
+	 * 	<li>second</li>
+	 * 	<li>minute</li>
+	 * 	<li>hour</li>
+	 * 	<li>day of month</li>
+	 * 	<li>month</li>
+	 * 	<li> day(s) of week</li>
+	 * </ul>
+	 * </p>
+	 * <p>
 	 * Send email each Friday at 16:00
-	 * cron pattern 0 0 16 * * 5
+	 * </p>
+	 * <code>
+	 *  0 0 16 * * 5
+	 * </code>
 	 */
 	@Scheduled(cron = "0 0 16 * * 5")
 	public void sendEmailFromCurrentClosings() {
 		// this day
 		date = LocalDate.now();
 
+		//week after
 		LocalDate weekAfter = date.minusWeeks(1);
 
 		IteratorProcesser<OrderContact> processor = new IteratorProcesser<OrderContact>();

@@ -2,9 +2,6 @@ package org.softala.roboapp.controller;
 
 import java.util.ArrayList;
 
-import javax.persistence.Query;
-
-import org.softala.roboapp.model.Dialog;
 import org.softala.roboapp.model.GivenAnswer;
 import org.softala.roboapp.model.helpModels.AnswerLevelPerAnswer;
 import org.softala.roboapp.repository.GivenAnswerRepository;
@@ -14,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import antlr.collections.List;
-
 /**
  * 
- * @author Tuomas Törmä
+ * @author 	Tuomas Törmä
+ * @since	2.12.2015
  *
  *	Controller mappings for accessing the GivenAnswerRepository
  */
@@ -38,6 +34,11 @@ public class GivenAnswerController {
 		return givenAnswerRepository.findAll();
 	}
 	
+	/**
+	 * Fetches data with custom query
+	 * 
+	 * @return
+	 */
 	@RequestMapping("/repository/allWithout")
 	public ArrayList<GivenAnswer> all(){
 		return givenAnswerRepository.getGivenAnswers();
