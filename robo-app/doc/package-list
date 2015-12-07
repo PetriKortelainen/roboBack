@@ -1,0 +1,10 @@
+org.softala.roboapp
+org.softala.roboapp.config
+org.softala.roboapp.controller
+org.softala.roboapp.model
+org.softala.roboapp.model.helpModels
+org.softala.roboapp.model.rest
+org.softala.roboapp.process
+org.softala.roboapp.repository
+org.softala.roboapp.task
+org.softala.roboapp.util

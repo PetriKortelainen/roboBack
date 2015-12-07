@@ -108,9 +108,10 @@ public class FrontendController {
 			session = FrontendController.this.newSession();
 			testId = session.getSessionId();
 		}
-
-		if (AHB.getTextfieldAnswer() != null || AHB.getTextfieldAnswer() != "") {
+		AHB.getTextfieldAnswer().trim();
+		if (!AHB.getTextfieldAnswer().isEmpty()) {
 			// ANSWER is an CLOSING...when textfield has content
+
 			try {
 				OrderContact oc = new OrderContact();
 				Date date = new Date();
@@ -129,7 +130,6 @@ public class FrontendController {
 			}
 		} else {
 			// ANSWER is a CLICK
-
 			GivenAnswer ga = new GivenAnswer();
 			AnswerOption ao = new AnswerOption();
 			GivenAnswerId gai = new GivenAnswerId();
@@ -154,7 +154,6 @@ public class FrontendController {
 			ga.setCreated(new Date());
 			ga.setSession(session);
 			ga.setAnswerOption(ao);
-
 			GivAnswRepository.save(ga);
 		}
 
