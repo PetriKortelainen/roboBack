@@ -23,7 +23,6 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Type;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**

@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 
+ * Controller mappings for accessing the DialogRepository
  * @author Tuomas Törmä
  * @Since 14.10.2015
  * 
- * Controller mappings for accessing the DialogRepository
  */
 
 @RestController

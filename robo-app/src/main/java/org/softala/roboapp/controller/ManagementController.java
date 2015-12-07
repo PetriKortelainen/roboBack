@@ -1,9 +1,5 @@
 package org.softala.roboapp.controller;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +7,6 @@ import java.util.Set;
 
 import org.softala.roboapp.model.AnswerOption;
 import org.softala.roboapp.model.Dialog;
-import org.softala.roboapp.model.Hello;
 import org.softala.roboapp.model.Question;
 import org.softala.roboapp.model.rest.RestManagement;
 import org.softala.roboapp.model.rest.RestDialog;
@@ -29,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * Controller for admin actions
  * @author Team3
  * 
  *

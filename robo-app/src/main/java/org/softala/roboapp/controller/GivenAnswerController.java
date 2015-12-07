@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 
+ *	Controller mappings for accessing the GivenAnswerRepository
  * @author 	Tuomas Törmä
  * @since	2.12.2015
  *
- *	Controller mappings for accessing the GivenAnswerRepository
  */
 @RestController
 @RequestMapping("/givenanswers")

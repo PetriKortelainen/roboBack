@@ -6,7 +6,6 @@ package org.softala.roboapp.controller;
 import junit.framework.TestCase;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 import org.softala.roboapp.App;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -73,6 +71,7 @@ public class TestDialogRepositoryTest extends TestCase{
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	@Before
 	public void setUp() throws Exception {;
 		 MockitoAnnotations.initMocks(this);

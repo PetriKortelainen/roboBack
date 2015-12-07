@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.softala.roboapp.App;
 import org.softala.roboapp.model.AnswerOption;
-import org.softala.roboapp.model.Closing;
 import org.softala.roboapp.model.Dialog;
 import org.softala.roboapp.model.GivenAnswer;
 import org.softala.roboapp.model.GivenAnswerId;

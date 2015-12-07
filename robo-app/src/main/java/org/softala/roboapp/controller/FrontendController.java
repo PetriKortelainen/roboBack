@@ -31,8 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
  * and handling the dialogues for frontend
  */
 
-/**
- * Controller mappings for customer front end.
+/** 
+ * Controller for customer actions in frontend.
  * 
  * @author Team 1 - Petri Kortelainen || Harri Stranden
  *

@@ -50,6 +50,7 @@ public class GivenAnswerId implements java.io.Serializable {
 		this.answerOptionId = answerOptionId;
 	}
 
+	@Override
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -65,6 +66,7 @@ public class GivenAnswerId implements java.io.Serializable {
 				&& (this.getAnswerOptionId() == castOther.getAnswerOptionId());
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 

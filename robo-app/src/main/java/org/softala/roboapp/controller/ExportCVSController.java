@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * RestController class that manages export CSV files.
  * 
  * @author Tuomas Törmä
  * @Since 14.10.2015
  * 
- * RestController class that manages export CSV files.
  */
 
 @RestController
@@ -56,7 +56,7 @@ public class ExportCVSController {
 		//get responses output stream and print data to it
 		Iterator<String> iter = rows.iterator();
 		while (iter.hasNext()) {
-			String outputString = (String) iter.next();
+			String outputString = iter.next();
 			try {
 				response.getOutputStream().print(outputString);
 			} catch (IOException e) {
@@ -107,7 +107,7 @@ public class ExportCVSController {
 			//get responses output stream and print data to it
 			Iterator<String> iter = rows.iterator();
 			while (iter.hasNext()) {
-				String outputString = (String) iter.next();
+				String outputString = iter.next();
 				try {
 					response.getOutputStream().print(outputString);
 				} catch (IOException e) {

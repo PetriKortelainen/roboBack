@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 
+ * Controller mappings for accessing the QuestionRepository
  * @author Tuomas Törmä
  * @Since 14.10.2015
  * 
- * Controller mappings for accessing the QuestionRepository
  */
 
 @RestController
@@ -28,7 +27,6 @@ public class QuestionController {
 	 */
 	@RequestMapping("/repository/all")
 	public Iterable<Question> allquestions(){
-		Iterable<Question> questions = questionrepository.findAll();
 		return questionrepository.findAll();
 	}
 	

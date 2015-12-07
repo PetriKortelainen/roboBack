@@ -1,12 +1,8 @@
 package org.softala.roboapp.util;
 
-import java.util.Map;
-
-import org.json.JSONObject;
 import org.json.simple.JSONValue;
 import org.yaml.snakeyaml.Yaml;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 

@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * Controller mappings for accessing the SessionRepository
  * @author Tuomas Törmä
  * 
- * Controller mappings for accessing the SessionRepository
  */
 
 @RestController
