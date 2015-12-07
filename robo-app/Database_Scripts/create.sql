@@ -1,12 +1,13 @@
 -- Luontiskripti 26.10.2015
 
 SET foreign_key_checks = 0;
-DROP TABLE IF EXISTS Dialog;
-DROP TABLE IF EXISTS Question;
-DROP TABLE IF EXISTS AnswerOption;
-DROP TABLE IF EXISTS Closing;
-DROP TABLE IF EXISTS GivenAnswer;
-DROP TABLE IF EXISTS Session;
+DROP TABLE IF EXISTS dialog;
+DROP TABLE IF EXISTS question;
+DROP TABLE IF EXISTS answer_option;
+DROP TABLE IF EXISTS closing;
+DROP TABLE IF EXISTS given_answer;
+DROP TABLE IF EXISTS session;
+DROP TABLE IF EXISTS order_contact;
 SET foreign_key_checks = 1;
 
 CREATE TABLE dialog(
