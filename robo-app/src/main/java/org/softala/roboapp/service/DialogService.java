@@ -6,6 +6,5 @@ import org.springframework.stereotype.Service;
 @Service
 public class DialogService {
 	
-		//kannansta hakua koodaan sit joskus :)
 	
 }
